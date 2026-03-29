@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <title>Martin Motion | Portfolio</title>
+    <meta
+      name="description"
+      content="Portfolio de Martin Motion, directeur artistique, motion designer et AI artist."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Syne:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true"></div>
+
+    <main class="site-shell">
+      <header class="hero">
+        <div class="hero-logo" aria-hidden="true">
+          <video autoplay muted loop playsinline preload="metadata">
+            <source src="./assets/logo-reveal.mov" type="video/quicktime" />
+            <source src="./assets/logo-reveal.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <p class="hero-kicker" id="heroKicker">Martin Motion</p>
+        <h1 id="heroTitle">Directeur Artistique, Motion Designer, <span class="no-break">AI Artist</span></h1>
+        <p class="hero-sub" id="heroSubtitle">
+          Narration visuelle, design en mouvement et direction artistique.
+        </p>
+      </header>
+
+      <section class="gallery" aria-label="Galerie projets">
+        <div class="coverflow" id="coverflowViewport">
+          <div class="coverflow-track" id="coverflowTrack"></div>
+          <div class="gallery-nav-wrap">
+            <button class="nav-btn" id="prevBtn" type="button" aria-label="Projet précédent">
+              ←
+            </button>
+            <button class="nav-btn" id="nextBtn" type="button" aria-label="Projet suivant">
+              →
+            </button>
+          </div>
+        </div>
+
+        <div class="project-meta" id="projectMeta" aria-live="polite">
+          <p class="meta-category" id="metaCategory">Direction Artistique</p>
+          <h2 id="metaTitle">Chargement</h2>
+          <p id="metaDescription"></p>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <a id="footerEmail" href="mailto:hello@martinmotion.studio">hello@martinmotion.studio</a>
+        <span id="footerCity">Paris</span>
+      </footer>
+    </main>
+
+    <div class="overlay" id="projectOverlay" aria-hidden="true">
+      <button class="overlay-backdrop" type="button" data-close-overlay aria-label="Fermer"></button>
+
+      <section
+        class="overlay-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="overlayTitle"
+        aria-describedby="overlayDescription"
+      >
+        <button class="overlay-close" id="overlayCloseBtn" type="button" aria-label="Fermer le projet">
+          ✕
+        </button>
+
+        <div class="overlay-fan">
+          <button class="overlay-head-nav" id="overlayHeadPrev" type="button" aria-label="Projet précédent">
+            ←
+          </button>
+          <button class="overlay-head-nav" id="overlayHeadNext" type="button" aria-label="Projet suivant">
+            →
+          </button>
+        </div>
+
+        <div class="overlay-grid">
+          <div class="overlay-video" id="overlayVideoWrap"></div>
+
+          <aside class="overlay-info">
+            <p class="meta-category" id="overlayCategory"></p>
+            <h2 id="overlayTitle"></h2>
+            <p id="overlayDescription"></p>
+            <ul class="tag-list" id="overlayTags"></ul>
+          </aside>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>

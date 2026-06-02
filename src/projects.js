@@ -7,7 +7,7 @@ export const projects = [
     category: "Film",
     year: "2026",
     role: "Direction artistique",
-    thumbnail: "./assets/thumbnails/lumen.webp?v=20260602-serif-about-thumb",
+    thumbnail: "./assets/thumbnails/lumen.webp?v=20260602-hero-balance5",
     videoUrl: `${mediaBaseUrl}/danse-reel-v01-insta-2.mp4`,
   },
   {
@@ -16,7 +16,7 @@ export const projects = [
     category: "Experimentation",
     year: "2026",
     role: "Direction artistique / IA generative",
-    thumbnail: "./assets/thumbnails/orbit.webp?v=20260602-serif-about-thumb",
+    thumbnail: "./assets/thumbnails/orbit.webp?v=20260602-hero-balance5",
     videoUrl: `${mediaBaseUrl}/magic-candy-v01.mp4`,
   },
   {
@@ -25,7 +25,7 @@ export const projects = [
     category: "Animation 3D",
     year: "2026",
     role: "Motion design",
-    thumbnail: "./assets/thumbnails/rendez-vous.webp?v=20260602-serif-about-thumb",
+    thumbnail: "./assets/thumbnails/rendez-vous.webp?v=20260602-hero-balance5",
     videoUrl: `${mediaBaseUrl}/big-bang-x-juliard-v02.mp4`,
   },
   {
@@ -34,7 +34,7 @@ export const projects = [
     category: "Film",
     year: "2026",
     role: "Direction artistique / Motion design",
-    thumbnail: "./assets/thumbnails/souvenirs.webp?v=20260602-serif-about-thumb",
+    thumbnail: "./assets/thumbnails/souvenirs.webp?v=20260602-hero-balance5",
     videoUrl: `${mediaBaseUrl}/en-boucle-x-pilot-ep-01.mov`,
   },
   {
@@ -43,7 +43,7 @@ export const projects = [
     category: "Animation 2D",
     year: "2026",
     role: "Motion design",
-    thumbnail: "./assets/thumbnails/interface.webp?v=20260602-serif-about-thumb",
+    thumbnail: "./assets/thumbnails/interface.webp?v=20260602-hero-balance5",
     videoUrl: `${mediaBaseUrl}/new-year-2026.mp4`,
   },
   {
@@ -52,7 +52,7 @@ export const projects = [
     category: "Branding",
     year: "2026",
     role: "Direction artistique",
-    thumbnail: "./assets/thumbnails/neoforma.webp?v=20260602-serif-about-thumb",
+    thumbnail: "./assets/thumbnails/neoforma.webp?v=20260602-hero-balance5",
     videoUrl: `${mediaBaseUrl}/la-recette-x-juliard.mp4`,
   },
   {
@@ -61,7 +61,7 @@ export const projects = [
     category: "Graphisme",
     year: "2026",
     role: "Design graphique",
-    thumbnail: "./assets/thumbnails/epure.webp?v=20260602-serif-about-thumb",
+    thumbnail: "./assets/thumbnails/epure.webp?v=20260602-hero-balance5",
     videoUrl: `${mediaBaseUrl}/reel-generatif-martin.mp4`,
   },
 ];

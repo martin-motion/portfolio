@@ -7,7 +7,7 @@ export function Hero() {
       class="hero__logo"
       width="168"
       height="168"
-      src="./assets/logo/logo-liquid.png?v=20260602-serif-about-thumb"
+      src="./assets/logo/logo-liquid.png?v=20260602-hero-balance5"
       alt=""
       decoding="async"
       aria-hidden="true"

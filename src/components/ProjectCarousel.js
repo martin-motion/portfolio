@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260602-serif-about-thumb";
+import { ProjectCard } from "./ProjectCard.js?v=20260602-hero-balance5";
 
 const getCircularOffset = (index, activeIndex, total) => {
   const rawOffset = index - activeIndex;
@@ -35,13 +35,14 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
   section.className = "carousel";
   section.setAttribute("aria-label", "Projets");
   section.innerHTML = `
-    <button class="carousel__arrow carousel__arrow--prev" type="button" aria-label="Projet precedent">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
-    </button>
-    <div class="carousel__stage" tabindex="0" aria-roledescription="carousel"></div>
-    <button class="carousel__arrow carousel__arrow--next" type="button" aria-label="Projet suivant">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
-    </button>
+    <div class="carousel__stage" tabindex="0" aria-roledescription="carousel">
+      <button class="carousel__arrow carousel__arrow--prev" type="button" aria-label="Projet precedent">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+      </button>
+      <button class="carousel__arrow carousel__arrow--next" type="button" aria-label="Projet suivant">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+      </button>
+    </div>
     <div class="carousel__dots" aria-label="Pagination des projets"></div>
   `;
 
@@ -192,6 +193,8 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
   stage.addEventListener(
     "click",
     (event) => {
+      if (event.target.closest(".carousel__arrow")) return;
+
       if (lastDragDistance > 10) {
         event.preventDefault();
         event.stopPropagation();

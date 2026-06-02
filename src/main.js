@@ -1,10 +1,10 @@
-import { projects } from "./projects.js?v=20260602-hero-overlay-bg";
-import { Header } from "./components/Header.js?v=20260602-hero-overlay-bg";
-import { Hero } from "./components/Hero.js?v=20260602-hero-overlay-bg";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260602-hero-overlay-bg";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260602-hero-overlay-bg";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260602-hero-overlay-bg";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260602-hero-overlay-bg";
+import { projects } from "./projects.js?v=20260602-serif-about-thumb";
+import { Header } from "./components/Header.js?v=20260602-serif-about-thumb";
+import { Hero } from "./components/Hero.js?v=20260602-serif-about-thumb";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260602-serif-about-thumb";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260602-serif-about-thumb";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260602-serif-about-thumb";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260602-serif-about-thumb";
 
 const app = document.querySelector("#app");
 const aboutOverlay = AboutOverlay();

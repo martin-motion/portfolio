@@ -128,6 +128,11 @@ button {
   color: rgba(242, 238, 232, 0.84);
 }
 
+.site-nav__link:focus-visible {
+  outline: 0;
+  color: rgba(242, 238, 232, 0.84);
+}
+
 .site-nav__link.is-active::after {
   content: none;
 }
@@ -192,7 +197,7 @@ button {
   -webkit-text-fill-color: transparent;
   color: rgba(238, 240, 245, 0.93);
   font-style: italic;
-  font-weight: 360;
+  font-weight: 600;
   animation: motionTitleGradient 7s ease-in-out infinite alternate;
 }
 
@@ -205,13 +210,13 @@ button {
   width: min(86vw, 520px);
   max-width: none;
   margin: 8px auto 0;
-  color: rgba(242, 238, 232, 0.48);
-  font-family: "Snell Roundhand", "Apple Chancery", "Bradley Hand", cursive;
-  font-size: clamp(0.88rem, 1.04vw, 1.04rem);
-  font-style: normal;
+  color: rgba(242, 238, 232, 0.5);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(0.76rem, 0.9vw, 0.88rem);
+  font-style: italic;
   font-weight: 400;
   line-height: 1.15;
-  letter-spacing: 0;
+  letter-spacing: 0.015em;
   text-align: center;
 }
 
@@ -772,18 +777,16 @@ button {
 .about-overlay__media {
   display: grid;
   place-items: center;
-  min-height: 240px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  background:
-    radial-gradient(circle at center, rgba(242, 238, 232, 0.08), transparent 58%),
-    rgba(255, 255, 255, 0.025);
+  min-height: 260px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .about-overlay__media img {
-  width: min(42%, 112px);
+  width: min(72%, 238px);
   height: auto;
-  opacity: 0.86;
+  opacity: 0.9;
 }
 
 .about-overlay__content {

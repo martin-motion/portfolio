@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260602-hero-overlay-bg";
+import { ProjectCard } from "./ProjectCard.js?v=20260602-serif-about-thumb";
 
 const getCircularOffset = (index, activeIndex, total) => {
   const rawOffset = index - activeIndex;

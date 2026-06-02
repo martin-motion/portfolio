@@ -10,7 +10,9 @@ export function AboutOverlay() {
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
       </button>
       <div class="about-overlay__media" aria-hidden="true">
-        <img src="./assets/logo/martin-motion-loop.gif" alt="" loading="lazy" decoding="async" />
+        <video autoplay muted loop playsinline preload="auto">
+          <source src="./assets/logo/logo-liquid.webm?v=20260602-liquid-bg" type="video/webm" />
+        </video>
       </div>
       <div class="about-overlay__content">
         <p class="about-overlay__eyebrow">À propos</p>

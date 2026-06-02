@@ -3,19 +3,15 @@ export function Hero() {
   hero.className = "hero";
   hero.setAttribute("aria-labelledby", "hero-title");
   hero.innerHTML = `
-    <video
+    <img
       class="hero__logo"
-      width="140"
-      height="140"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="auto"
+      width="168"
+      height="168"
+      src="./assets/logo/logo-liquid.png?v=20260602-alpha-polish"
+      alt=""
+      decoding="async"
       aria-hidden="true"
-    >
-      <source src="./assets/logo/logo-liquid.webm?v=20260602-premium-perf" type="video/webm" />
-    </video>
+    />
     <h1 id="hero-title" class="hero__title" aria-label="Martin Motion">
       <span class="hero__title-main">Martin</span>
       <span class="hero__title-mark" aria-hidden="true">Motion</span>

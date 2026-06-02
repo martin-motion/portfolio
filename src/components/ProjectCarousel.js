@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260602-hero-italic";
+import { ProjectCard } from "./ProjectCard.js?v=20260602-wheel-scroll";
 
 const getCircularOffset = (index, activeIndex, total) => {
   const rawOffset = index - activeIndex;
@@ -27,6 +27,8 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
   let dragDeltaX = 0;
   let lastDragDistance = 0;
   let isDragging = false;
+  let wheelDelta = 0;
+  let wheelIsLocked = false;
 
   const section = document.createElement("section");
   section.id = "projects";
@@ -85,6 +87,20 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
   };
 
   const move = (direction) => setActiveIndex(activeIndex + direction);
+
+  const moveFromWheel = (delta) => {
+    wheelDelta += delta;
+
+    if (wheelIsLocked || Math.abs(wheelDelta) < 42) return;
+
+    move(wheelDelta > 0 ? 1 : -1);
+    wheelDelta = 0;
+    wheelIsLocked = true;
+
+    window.setTimeout(() => {
+      wheelIsLocked = false;
+    }, 220);
+  };
 
   const openProjectAt = (index, trigger = cards[index]) => {
     activeIndex = index;
@@ -188,6 +204,22 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
       openProjectAt(visualTarget.index, visualTarget.card);
     },
     true
+  );
+
+  stage.addEventListener(
+    "wheel",
+    (event) => {
+      if (document.body.classList.contains("has-overlay")) return;
+
+      const delta =
+        Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+      if (Math.abs(delta) < 2) return;
+
+      event.preventDefault();
+      stage.focus({ preventScroll: true });
+      moveFromWheel(delta);
+    },
+    { passive: false }
   );
 
   stage.addEventListener("pointerdown", (event) => {

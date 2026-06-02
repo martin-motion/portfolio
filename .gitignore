@@ -1,0 +1,7 @@
+.DS_Store
+.vercel/
+node_modules/
+
+# Real videos are served from Cloudflare R2/Workers, not from Git.
+assets/videos/danse-reel-v01-insta-2.mp4
+assets/videos/magic-candy-v01.mp4

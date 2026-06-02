@@ -11,7 +11,7 @@ export function AboutOverlay() {
       </button>
       <div class="about-overlay__media" aria-hidden="true">
         <video autoplay muted loop playsinline preload="auto">
-          <source src="./assets/logo/logo-liquid.webm?v=20260602-liquid-bg" type="video/webm" />
+          <source src="./assets/logo/logo-liquid.webm?v=20260602-premium-perf" type="video/webm" />
         </video>
       </div>
       <div class="about-overlay__content">

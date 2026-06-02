@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260602-wheel-scroll";
+import { ProjectCard } from "./ProjectCard.js?v=20260602-premium-perf";
 
 const getCircularOffset = (index, activeIndex, total) => {
   const rawOffset = index - activeIndex;
@@ -141,6 +141,7 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
       const distance = Math.abs(offset);
       const depth = getDepth(offset);
       const direction = Math.sign(offset);
+      const borderOpacity = [0.38, 0.09, 0.045, 0.02][Math.min(distance, 3)];
 
       card.classList.toggle("is-active", offset === 0);
       card.classList.toggle("is-dimmed", distance > 2);
@@ -153,6 +154,7 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
       card.style.setProperty("--shift-y", `${depth.y}px`);
       card.style.setProperty("--translate-z", `${depth.z}px`);
       card.style.setProperty("--z", 100 - distance);
+      card.style.setProperty("--card-border-opacity", borderOpacity);
       card.style.transformOrigin =
         offset < 0 ? "right center" : offset > 0 ? "left center" : "center center";
       card.tabIndex = distance <= 2 ? 0 : -1;
@@ -160,8 +162,15 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
     });
 
     dotButtons.forEach((dot, index) => {
-      dot.classList.toggle("is-active", index === activeIndex);
-      dot.setAttribute("aria-current", index === activeIndex ? "true" : "false");
+      const offset = getCircularOffset(index, activeIndex, projects.length);
+      const distance = Math.abs(offset);
+      const dotOpacity = [0.92, 0.34, 0.22, 0.12][Math.min(distance, 3)];
+      const dotScale = [1.36, 0.92, 0.78, 0.64][Math.min(distance, 3)];
+
+      dot.classList.toggle("is-active", distance === 0);
+      dot.style.setProperty("--dot-opacity", dotOpacity);
+      dot.style.setProperty("--dot-scale", dotScale);
+      dot.setAttribute("aria-current", distance === 0 ? "true" : "false");
     });
   };
 
@@ -216,7 +225,6 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
       if (Math.abs(delta) < 2) return;
 
       event.preventDefault();
-      stage.focus({ preventScroll: true });
       moveFromWheel(delta);
     },
     { passive: false }

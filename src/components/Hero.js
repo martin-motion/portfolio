@@ -14,7 +14,7 @@ export function Hero() {
       preload="auto"
       aria-hidden="true"
     >
-      <source src="./assets/logo/logo-liquid.webm?v=20260602-liquid-bg" type="video/webm" />
+      <source src="./assets/logo/logo-liquid.webm?v=20260602-premium-perf" type="video/webm" />
     </video>
     <h1 id="hero-title" class="hero__title" aria-label="Martin Motion">
       <span class="hero__title-main">Martin</span>

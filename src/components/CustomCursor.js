@@ -16,10 +16,24 @@ export function CustomCursor() {
 
   let moveTimer = 0;
   let idleTimer = 0;
+  let animationFrame = 0;
+  let cursorX = window.innerWidth / 2;
+  let cursorY = window.innerHeight / 2;
+
+  const render = () => {
+    animationFrame = 0;
+    cursor.style.setProperty("--cursor-x", `${cursorX}px`);
+    cursor.style.setProperty("--cursor-y", `${cursorY}px`);
+  };
 
   const move = (event) => {
-    cursor.style.setProperty("--cursor-x", `${event.clientX}px`);
-    cursor.style.setProperty("--cursor-y", `${event.clientY}px`);
+    cursorX = event.clientX;
+    cursorY = event.clientY;
+
+    if (!animationFrame) {
+      animationFrame = window.requestAnimationFrame(render);
+    }
+
     cursor.classList.add("is-visible");
     cursor.classList.add("is-moving");
 

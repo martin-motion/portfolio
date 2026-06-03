@@ -36,7 +36,7 @@ export const projects = [
   },
   {
     id: "souvenirs",
-    title: "J'ai toujours aimé voyagé x Lord Esperanza",
+    title: "Lord Esperanza x Pilot",
     category: "Film",
     year: "2026",
     role: "Direction artistique / Motion design",
@@ -47,7 +47,7 @@ export const projects = [
   },
   {
     id: "interface",
-    title: "Interface",
+    title: "Happy New Year",
     category: "Animation 2D",
     year: "2026",
     role: "Motion design",
@@ -58,7 +58,7 @@ export const projects = [
   },
   {
     id: "neoforma",
-    title: "Neoforma",
+    title: "La recette du jour",
     category: "Branding",
     year: "2026",
     role: "Direction artistique",
@@ -69,7 +69,7 @@ export const projects = [
   },
   {
     id: "epure",
-    title: "Epure",
+    title: "Generative",
     category: "Graphisme",
     year: "2026",
     role: "Design graphique",

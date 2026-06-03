@@ -346,17 +346,43 @@ button {
   right: clamp(16px, 1.6vw, 23px);
   bottom: clamp(16px, 1.6vw, 23px);
   display: grid;
-  gap: 6px;
+  gap: 8px;
   text-align: left;
 }
 
-.project-card__category {
-  color: rgba(242, 238, 232, 0.46);
-  font-size: clamp(0.46rem, 0.54vw, 0.56rem);
-  font-weight: 520;
-  letter-spacing: 0.07em;
-  line-height: 1.1;
-  text-transform: uppercase;
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-width: 100%;
+}
+
+.project-card__tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 16px;
+  padding: 3px 6px 3px 5px;
+  border: 1px solid rgba(var(--tag-color), 0.2);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(var(--tag-color), 0.16), rgba(var(--tag-color), 0.07)),
+    rgba(0, 0, 0, 0.24);
+  color: rgba(242, 238, 232, 0.72);
+  font-size: clamp(0.42rem, 0.46vw, 0.5rem);
+  font-weight: 540;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.project-card__tag::before {
+  width: 5px;
+  height: 5px;
+  margin-right: 4px;
+  border-radius: 999px;
+  background: rgb(var(--tag-tone));
+  box-shadow: 0 0 10px rgba(var(--tag-tone), 0.45);
+  content: "";
 }
 
 .project-card__title {
@@ -678,6 +704,22 @@ button {
 .video-overlay__loading.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.video-overlay__empty {
+  display: grid;
+  place-items: center;
+  width: min(100%, 620px);
+  min-height: min(52vh, 420px);
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-overlay);
+  background: rgba(255, 255, 255, 0.035);
+  color: rgba(242, 238, 232, 0.62);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(0.92rem, 1.05vw, 1.05rem);
+  font-style: italic;
+  text-align: center;
 }
 
 .video-overlay__nav {

@@ -52,6 +52,16 @@ export function VideoOverlay({ projects, onProjectChange }) {
     panel.style.removeProperty("--overlay-width");
   };
 
+  const showUnavailable = () => {
+    clearTimeout(loadingTimer);
+    setLoading(false);
+    currentVideo = null;
+    player.innerHTML = `<div class="video-overlay__empty">Vidéo bientôt disponible</div>`;
+    player.style.setProperty("--video-ratio", "1 / 1");
+    player.style.setProperty("--video-width", "620px");
+    panel.style.setProperty("--overlay-width", "620px");
+  };
+
   const updatePlayerFrame = (video) => {
     if (!video.videoWidth || !video.videoHeight) return;
 
@@ -92,6 +102,12 @@ export function VideoOverlay({ projects, onProjectChange }) {
     unloadVideo();
     loadingTimer = window.setTimeout(() => setLoading(true), 300);
 
+    if (!project.videoUrl) {
+      showUnavailable();
+      onProjectChange(activeIndex);
+      return;
+    }
+
     const video = document.createElement("video");
     video.src = project.videoUrl;
     video.poster = project.thumbnail;
@@ -114,6 +130,11 @@ export function VideoOverlay({ projects, onProjectChange }) {
     video.addEventListener("playing", () => {
       clearTimeout(loadingTimer);
       setLoading(false);
+    });
+
+    video.addEventListener("error", () => {
+      if (currentVideo !== video) return;
+      showUnavailable();
     });
 
     player.append(video);

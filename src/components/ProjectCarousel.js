@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260603-logo-overlay-fix";
+import { ProjectCard } from "./ProjectCard.js?v=20260603-tags-logotype";
 
 const getCircularOffset = (index, activeIndex, total) => {
   const rawOffset = index - activeIndex;

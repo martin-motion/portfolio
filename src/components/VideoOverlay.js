@@ -64,10 +64,11 @@ export function VideoOverlay({ projects, onProjectChange }) {
       parseFloat(overlayStyle.paddingTop) + parseFloat(overlayStyle.paddingBottom);
     const panelGap = parseFloat(panelStyle.gap) || 0;
     const topbarHeight = overlay.querySelector(".video-overlay__topbar").offsetHeight;
+    const mobileNavReserve = window.matchMedia("(max-width: 620px)").matches ? 74 : 0;
     const availableWidth = Math.max(280, window.innerWidth - paddingX);
     const availableHeight = Math.max(
       280,
-      window.innerHeight - paddingY - topbarHeight - panelGap
+      window.innerHeight - paddingY - topbarHeight - panelGap - mobileNavReserve
     );
     const idealWidth = Math.min(1500, availableWidth, availableHeight * aspect);
 

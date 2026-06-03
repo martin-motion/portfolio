@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260602-hero-balance5";
+import { ProjectCard } from "./ProjectCard.js?v=20260603-logo-overlay-fix";
 
 const getCircularOffset = (index, activeIndex, total) => {
   const rawOffset = index - activeIndex;
@@ -234,6 +234,8 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
   );
 
   stage.addEventListener("pointerdown", (event) => {
+    if (event.target.closest(".carousel__arrow")) return;
+
     isDragging = true;
     dragStartX = event.clientX;
     dragDeltaX = 0;

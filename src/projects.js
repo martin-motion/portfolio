@@ -3,7 +3,7 @@ const mediaBaseUrl = "https://martin-motion-media.martinbarbe09.workers.dev/vide
 export const projects = [
   {
     id: "lumen",
-    title: "Lumen",
+    title: "MOOD",
     category: "Film",
     year: "2026",
     role: "Direction artistique",
@@ -14,7 +14,7 @@ export const projects = [
   },
   {
     id: "orbit",
-    title: "Orbit",
+    title: "Magic Candy",
     category: "Experimentation",
     year: "2026",
     role: "Direction artistique / IA generative",
@@ -25,7 +25,7 @@ export const projects = [
   },
   {
     id: "rendez-vous",
-    title: "Big bang mon amour",
+    title: "Big bang, mon amour",
     category: "Film",
     year: "2026",
     role: "Captation réel / IA générative / VFX",
@@ -36,7 +36,7 @@ export const projects = [
   },
   {
     id: "souvenirs",
-    title: "Souvenirs",
+    title: "J'ai toujours aimé voyagé x Lord Esperanza",
     category: "Film",
     year: "2026",
     role: "Direction artistique / Motion design",

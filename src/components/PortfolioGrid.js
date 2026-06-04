@@ -1,5 +1,5 @@
-import { CategoryFilters } from "./CategoryFilters.js?v=20260604-candy-overlay";
-import { renderProjectTags } from "./ProjectCard.js?v=20260604-candy-overlay";
+import { CategoryFilters } from "./CategoryFilters.js?v=20260604-home-cloudflare";
+import { renderProjectTags } from "./ProjectCard.js?v=20260604-home-cloudflare";
 
 const FILTER_ORDER = [
   "Tous",

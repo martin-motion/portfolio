@@ -1,5 +1,6 @@
 .DS_Store
 .vercel/
+.wrangler/
 node_modules/
 
 # Real videos are served from Cloudflare R2/Workers, not from Git.

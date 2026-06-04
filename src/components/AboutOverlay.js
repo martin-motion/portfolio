@@ -10,11 +10,11 @@ export function AboutOverlay() {
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
       </button>
       <div class="about-overlay__media" aria-hidden="true">
-        <img src="./assets/logo/logo-liquid.png?v=20260604-candy-overlay" alt="" loading="lazy" decoding="async" />
+        <img src="./assets/logo/logo-liquid.png?v=20260604-home-cloudflare" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="about-overlay__content">
         <p class="about-overlay__eyebrow">À propos</p>
-        <h2 id="about-title">Martin Motion</h2>
+        <h2 id="about-title"><span>Martin</span> <em>Motion</em></h2>
         <p>
           Motion designer et directeur artistique, je conçois des images en mouvement
           pour des films, interfaces, identités et expérimentations visuelles.
@@ -32,10 +32,13 @@ export function AboutOverlay() {
 
   const open = (trigger) => {
     restoreFocusTo = trigger ?? document.activeElement;
+    if (restoreFocusTo && typeof restoreFocusTo.blur === "function") {
+      restoreFocusTo.blur();
+    }
     overlay.setAttribute("aria-hidden", "false");
     document.documentElement.classList.add("has-overlay");
     document.body.classList.add("has-overlay");
-    panel.focus({ preventScroll: true });
+    window.setTimeout(() => panel.focus({ preventScroll: true }), 60);
   };
 
   const close = () => {

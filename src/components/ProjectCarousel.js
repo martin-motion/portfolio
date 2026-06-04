@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260604-candy-overlay";
+import { ProjectCard } from "./ProjectCard.js?v=20260604-home-cloudflare";
 
 const getCircularOffset = (index, activeIndex, total) => {
   const rawOffset = index - activeIndex;
@@ -165,10 +165,11 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
     dotButtons.forEach((dot, index) => {
       const offset = getCircularOffset(index, activeIndex, projects.length);
       const distance = Math.abs(offset);
-      const dotOpacity = [0.88, 0.38, 0.22, 0.1][Math.min(distance, 3)];
-      const dotScale = [1.22, 0.9, 0.78, 0.66][Math.min(distance, 3)];
+      const dotOpacity = [0.86, 0.34, 0.16, 0][Math.min(distance, 3)];
+      const dotScale = [1, 0.74, 0.56, 0.42][Math.min(distance, 3)];
 
       dot.classList.toggle("is-active", distance === 0);
+      dot.classList.toggle("is-hidden", distance > 2);
       dot.style.setProperty("--dot-opacity", dotOpacity);
       dot.style.setProperty("--dot-scale", dotScale);
       dot.setAttribute("aria-current", distance === 0 ? "true" : "false");

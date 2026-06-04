@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260604-home-cloudflare";
+import { ProjectCard } from "./ProjectCard.js?v=20260604-final-cta";
 
 const getCircularOffset = (index, activeIndex, total) => {
   const rawOffset = index - activeIndex;

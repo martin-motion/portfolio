@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260604-home-cloudflare";
-import { Header } from "./components/Header.js?v=20260604-home-cloudflare";
-import { Hero } from "./components/Hero.js?v=20260604-home-cloudflare";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260604-home-cloudflare";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260604-home-cloudflare";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260604-home-cloudflare";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260604-home-cloudflare";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260604-home-cloudflare";
+import { projects } from "./projects.js?v=20260604-final-cta";
+import { Header } from "./components/Header.js?v=20260604-final-cta";
+import { Hero } from "./components/Hero.js?v=20260604-final-cta";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260604-final-cta";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260604-final-cta";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260604-final-cta";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260604-final-cta";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260604-final-cta";
 
 const app = document.querySelector("#app");
 const aboutOverlay = AboutOverlay();

@@ -1,11 +1,15 @@
 export const TAG_COLORS = {
+  "Mini film": { color: "214, 232, 255", tone: "115, 163, 214" },
   "IA générative": { color: "190, 218, 255", tone: "108, 149, 220" },
+  "IA Générative": { color: "190, 218, 255", tone: "108, 149, 220" },
   "Motion design": { color: "223, 232, 255", tone: "123, 151, 230" },
   "Animation 2D": { color: "223, 232, 255", tone: "123, 151, 230" },
   Montage: { color: "235, 222, 198", tone: "188, 143, 92" },
   "Captation réelle": { color: "216, 238, 220", tone: "86, 162, 111" },
   Illustration: { color: "240, 226, 154", tone: "188, 177, 48" },
   VFX: { color: "239, 203, 255", tone: "171, 102, 216" },
+  "VFX compositing": { color: "239, 203, 255", tone: "171, 102, 216" },
+  "VFX / Compositing": { color: "239, 203, 255", tone: "171, 102, 216" },
 };
 
 export const renderProjectTags = (tags = [], className = "project-card__tag") =>

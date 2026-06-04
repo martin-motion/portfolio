@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260604-taxonomy";
-import { Header } from "./components/Header.js?v=20260604-taxonomy";
-import { Hero } from "./components/Hero.js?v=20260604-taxonomy";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260604-taxonomy";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260604-taxonomy";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260604-taxonomy";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260604-taxonomy";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260604-taxonomy";
+import { projects } from "./projects.js?v=20260604-refine";
+import { Header } from "./components/Header.js?v=20260604-refine";
+import { Hero } from "./components/Hero.js?v=20260604-refine";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260604-refine";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260604-refine";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260604-refine";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260604-refine";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260604-refine";
 
 const app = document.querySelector("#app");
 const aboutOverlay = AboutOverlay();
@@ -40,8 +40,22 @@ const portfolio = PortfolioGrid({
 });
 
 const header = Header({ onAboutOpen: (trigger) => aboutOverlay.open(trigger) });
+const selectionActions = document.createElement("div");
+selectionActions.className = "selection-actions";
+selectionActions.innerHTML = `
+  <a class="selection-actions__link" href="/portfolio">
+    <span aria-hidden="true">+</span>
+    <span>Voir plus de projets</span>
+  </a>
+`;
 
-selectionView.append(Hero(), carousel.element);
+selectionActions.querySelector("a").addEventListener("click", (event) => {
+  event.preventDefault();
+  history.pushState(null, "", "/portfolio");
+  setRoute();
+});
+
+selectionView.append(Hero(), carousel.element, selectionActions);
 
 const setRoute = () => {
   const route =

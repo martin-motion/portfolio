@@ -1,5 +1,5 @@
-import { CategoryFilters } from "./CategoryFilters.js?v=20260604-taxonomy";
-import { renderProjectTags } from "./ProjectCard.js?v=20260604-taxonomy";
+import { CategoryFilters } from "./CategoryFilters.js?v=20260604-refine";
+import { renderProjectTags } from "./ProjectCard.js?v=20260604-refine";
 
 const FILTER_ORDER = [
   "Tous",
@@ -12,12 +12,14 @@ const FILTER_ORDER = [
 ];
 
 const getFilters = (projects) => {
-  const availableCategories = new Set(projects.map((project) => project.category));
+  const availableCategories = new Set(
+    projects.flatMap((project) => project.categories ?? [project.category])
+  );
   return FILTER_ORDER.filter((filter) => filter === "Tous" || availableCategories.has(filter));
 };
 
 const projectMatchesFilter = (project, filter) =>
-  filter === "Tous" || project.category === filter;
+  filter === "Tous" || (project.categories ?? [project.category]).includes(filter);
 
 export function PortfolioGrid({ projects, onOpenProject }) {
   let activeFilter = "Tous";

@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260604-taxonomy";
+import { ProjectCard } from "./ProjectCard.js?v=20260604-refine";
 
 const getCircularOffset = (index, activeIndex, total) => {
   const rawOffset = index - activeIndex;
@@ -166,13 +166,11 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
       const offset = getCircularOffset(index, activeIndex, projects.length);
       const distance = Math.abs(offset);
       const dotOpacity = [0.88, 0.38, 0.22, 0.1][Math.min(distance, 3)];
-      const dotScale = [1, 0.9, 0.78, 0.66][Math.min(distance, 3)];
-      const dotWidth = distance === 0 ? "14px" : "4px";
+      const dotScale = [1.22, 0.9, 0.78, 0.66][Math.min(distance, 3)];
 
       dot.classList.toggle("is-active", distance === 0);
       dot.style.setProperty("--dot-opacity", dotOpacity);
       dot.style.setProperty("--dot-scale", dotScale);
-      dot.style.setProperty("--dot-width", dotWidth);
       dot.setAttribute("aria-current", distance === 0 ? "true" : "false");
     });
   };

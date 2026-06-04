@@ -329,6 +329,30 @@ button {
   transition: opacity 420ms ease;
 }
 
+.project-card::before {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      118deg,
+      transparent 0%,
+      transparent 34%,
+      rgba(225, 235, 255, 0.18) 48%,
+      transparent 62%,
+      transparent 100%
+    );
+  content: "";
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-18%) scaleX(1.08);
+  transition:
+    opacity 320ms ease,
+    transform 760ms var(--ease-premium);
+}
+
 .carousel__stage.is-dragging .project-card {
   transition-duration: 90ms;
 }
@@ -339,9 +363,19 @@ button {
     0 0 0 1px rgba(255, 255, 255, 0.055);
 }
 
+.project-card.is-active::before {
+  opacity: 0.12;
+  transform: translateX(0) scaleX(1.08);
+}
+
 .project-card:hover {
   border-color: rgba(255, 255, 255, 0.28);
   filter: brightness(calc(var(--brightness) + 0.08)) saturate(1);
+}
+
+.project-card.is-active:hover::before {
+  opacity: 0.22;
+  transform: translateX(18%) scaleX(1.08);
 }
 
 .project-card__image {
@@ -352,6 +386,11 @@ button {
   object-position: center center;
   transform: scale(1.02);
   transform-origin: center center;
+  transition: transform 520ms var(--ease-premium);
+}
+
+.project-card.is-active:hover .project-card__image {
+  transform: scale(1.035);
 }
 
 .project-card__shade {

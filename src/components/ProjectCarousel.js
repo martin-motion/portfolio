@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260604-violet-rs";
+import { ProjectCard } from "./ProjectCard.js?v=20260604-hny-pilot";
 
 const getCircularOffset = (index, activeIndex, total) => {
   const rawOffset = index - activeIndex;

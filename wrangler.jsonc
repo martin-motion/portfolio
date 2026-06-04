@@ -1,0 +1,11 @@
+{
+  "name": "martin-motion-media",
+  "main": "workers/media-worker.mjs",
+  "compatibility_date": "2026-06-04",
+  "r2_buckets": [
+    {
+      "binding": "MEDIA_BUCKET",
+      "bucket_name": "martin-motion-media"
+    }
+  ]
+}

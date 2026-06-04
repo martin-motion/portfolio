@@ -1,4 +1,13 @@
 const VIDEO_ROUTES = {
+  "/videos/domaine-paul-mas.mp4": "Domaine Paul Mas.mp4",
+  "/videos/edf-chooz.mp4": "EDF Chooz.mp4",
+  "/videos/engie-solution.mp4": "Engie Solution.mp4",
+  "/videos/joynii-v02-m2.mp4": "JOYNII_V02_M2.mp4",
+  "/videos/orange-ilomba.mp4": "Orange Ilomba.mp4",
+  "/videos/sib.mp4": "SIB.mp4",
+  "/videos/talent-soft.mp4": "Talent Soft.mp4",
+  "/videos/webhelp.mp4": "WebHelp.mp4",
+  "/videos/woah.mp4": "Woah.mp4",
   "/videos/big-bang-x-juliard-v02.mp4": "Big Bang x Juliard V02.mp4",
   "/videos/danse-reel-v01-insta-2.mp4": "DANSE REEL V01_INSTA 2.mp4",
   "/videos/en-boucle-x-pilot-ep-01.mov": "En Boucle x Pilot Ep 01.mov",

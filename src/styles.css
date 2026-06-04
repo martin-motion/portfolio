@@ -697,8 +697,9 @@ button {
 .portfolio-card__media::after {
   position: absolute;
   inset: auto 0 0;
-  height: 34%;
-  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.42));
+  z-index: 1;
+  height: 42%;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.56));
   content: "";
 }
 
@@ -709,6 +710,35 @@ button {
   object-fit: cover;
   transform: scale(1.015);
   transition: transform 360ms var(--ease-premium);
+}
+
+.portfolio-card__placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(130, 174, 220, 0.2), transparent 36%),
+    radial-gradient(circle at 72% 78%, rgba(38, 117, 128, 0.22), transparent 42%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    rgba(7, 16, 18, 0.92);
+  color: rgba(242, 238, 232, 0.72);
+  font-size: clamp(1rem, 1.4vw, 1.5rem);
+  font-weight: 560;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.portfolio-card__media-tags {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
 }
 
 .portfolio-card:hover .portfolio-card__media {
@@ -725,12 +755,6 @@ button {
   display: grid;
   gap: 8px;
   min-width: 0;
-}
-
-.portfolio-card__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
 }
 
 .portfolio-card__tag {
@@ -1271,11 +1295,11 @@ button {
     gap: 7px;
   }
 
-  .portfolio-card__tags {
+  .portfolio-card__media-tags {
     gap: 4px;
   }
 
-  .portfolio-card__tags span {
+  .portfolio-card__tag {
     font-size: 0.52rem;
     padding: 4px 6px;
   }

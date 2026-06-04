@@ -1,15 +1,19 @@
-import { projects } from "./projects.js?v=20260604-refine";
-import { Header } from "./components/Header.js?v=20260604-refine";
-import { Hero } from "./components/Hero.js?v=20260604-refine";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260604-refine";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260604-refine";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260604-refine";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260604-refine";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260604-refine";
+import { projects } from "./projects.js?v=20260604-portfolio-additions";
+import { Header } from "./components/Header.js?v=20260604-portfolio-additions";
+import { Hero } from "./components/Hero.js?v=20260604-portfolio-additions";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260604-portfolio-additions";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260604-portfolio-additions";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260604-portfolio-additions";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260604-portfolio-additions";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260604-portfolio-additions";
 
 const app = document.querySelector("#app");
 const aboutOverlay = AboutOverlay();
 const featuredProjects = projects.filter((project) => project.featured);
+const selectionProjects = [
+  ...featuredProjects.filter((project) => project.id === "interface"),
+  ...featuredProjects.filter((project) => project.id !== "interface"),
+];
 const selectionView = document.createElement("div");
 selectionView.className = "selection-view route-view";
 
@@ -17,14 +21,14 @@ const overlay = VideoOverlay({
   projects,
   onProjectChange: (index) => {
     const project = projects[index];
-    const featuredIndex = featuredProjects.findIndex((item) => item.id === project.id);
-    if (featuredIndex >= 0) carousel.setActiveIndex(featuredIndex);
+    const selectionIndex = selectionProjects.findIndex((item) => item.id === project.id);
+    if (selectionIndex >= 0) carousel.setActiveIndex(selectionIndex);
   },
 });
 
 const carousel = ProjectCarousel({
-  projects: featuredProjects,
-  initialIndex: 3,
+  projects: selectionProjects,
+  initialIndex: 0,
   onOpenProject: (project, _index, trigger) => {
     const projectIndex = projects.findIndex((item) => item.id === project.id);
     overlay.open(project, projectIndex, trigger);

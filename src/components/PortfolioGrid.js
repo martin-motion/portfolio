@@ -1,5 +1,5 @@
-import { CategoryFilters } from "./CategoryFilters.js?v=20260604-refine";
-import { renderProjectTags } from "./ProjectCard.js?v=20260604-refine";
+import { CategoryFilters } from "./CategoryFilters.js?v=20260604-portfolio-additions";
+import { renderProjectTags } from "./ProjectCard.js?v=20260604-portfolio-additions";
 
 const FILTER_ORDER = [
   "Tous",
@@ -59,15 +59,18 @@ export function PortfolioGrid({ projects, onOpenProject }) {
       card.className = "portfolio-card";
       card.type = "button";
       card.setAttribute("aria-label", `${project.title}, ${project.category}`);
+      const media = project.thumbnail
+        ? `<img src="${project.thumbnail}" alt="" loading="lazy" decoding="async" draggable="false" />`
+        : `<span class="portfolio-card__placeholder" aria-hidden="true">${project.title}</span>`;
       card.innerHTML = `
         <span class="portfolio-card__media">
-          <img src="${project.thumbnail}" alt="" loading="lazy" decoding="async" draggable="false" />
+          ${media}
+          <span class="portfolio-card__media-tags" aria-hidden="true">
+            ${renderProjectTags(project.tags ?? [project.category], "portfolio-card__tag")}
+          </span>
         </span>
         <span class="portfolio-card__body">
           <span class="portfolio-card__title">${project.title}</span>
-          <span class="portfolio-card__tags" aria-hidden="true">
-            ${renderProjectTags(project.tags ?? [project.category], "portfolio-card__tag")}
-          </span>
         </span>
       `;
       card.addEventListener("click", () => onOpenProject(project, card));

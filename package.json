@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node --check src/main.js && node --check src/projects.js && node --check src/components/Header.js && node --check src/components/Hero.js && node --check src/components/CustomCursor.js && node --check src/components/ProjectCard.js && node --check src/components/ProjectCarousel.js && node --check src/components/CategoryFilters.js && node --check src/components/PortfolioGrid.js && node --check src/components/VideoOverlay.js && node --check src/components/AboutOverlay.js"
+    "check": "node --check src/main.js && node --check src/projects.js && node --check src/components/Header.js && node --check src/components/Hero.js && node --check src/components/CustomCursor.js && node --check src/components/ProjectCard.js && node --check src/components/ProjectCarousel.js && node --check src/components/CategoryFilters.js && node --check src/components/PortfolioGrid.js && node --check src/components/VideoOverlay.js && node --check src/components/AboutOverlay.js",
+    "deploy:worker": "wrangler deploy"
   }
 }

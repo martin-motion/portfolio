@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260604-portfolio-additions";
-import { Header } from "./components/Header.js?v=20260604-portfolio-additions";
-import { Hero } from "./components/Hero.js?v=20260604-portfolio-additions";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260604-portfolio-additions";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260604-portfolio-additions";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260604-portfolio-additions";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260604-portfolio-additions";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260604-portfolio-additions";
+import { projects } from "./projects.js?v=20260604-violet-rs";
+import { Header } from "./components/Header.js?v=20260604-violet-rs";
+import { Hero } from "./components/Hero.js?v=20260604-violet-rs";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260604-violet-rs";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260604-violet-rs";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260604-violet-rs";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260604-violet-rs";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260604-violet-rs";
 
 const app = document.querySelector("#app");
 const aboutOverlay = AboutOverlay();

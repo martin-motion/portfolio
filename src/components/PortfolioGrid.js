@@ -1,9 +1,9 @@
-import { CategoryFilters } from "./CategoryFilters.js?v=20260604-portfolio-additions";
-import { renderProjectTags } from "./ProjectCard.js?v=20260604-portfolio-additions";
+import { CategoryFilters } from "./CategoryFilters.js?v=20260604-violet-rs";
+import { renderProjectTags } from "./ProjectCard.js?v=20260604-violet-rs";
 
 const FILTER_ORDER = [
   "Tous",
-  "Mini Films",
+  "Mini film RS",
   "Motion Design",
   "IA Générative",
   "Logo & Animation",

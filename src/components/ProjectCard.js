@@ -1,4 +1,5 @@
 export const TAG_COLORS = {
+  "Mini film RS": { color: "214, 232, 255", tone: "115, 163, 214" },
   "Mini film": { color: "214, 232, 255", tone: "115, 163, 214" },
   "IA générative": { color: "190, 218, 255", tone: "108, 149, 220" },
   "IA Générative": { color: "190, 218, 255", tone: "108, 149, 220" },

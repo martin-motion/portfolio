@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260603-portfolio-grid";
-import { Header } from "./components/Header.js?v=20260603-portfolio-grid";
-import { Hero } from "./components/Hero.js?v=20260603-portfolio-grid";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260603-portfolio-grid";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260603-portfolio-grid";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260603-portfolio-grid";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260603-portfolio-grid";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260603-portfolio-grid";
+import { projects } from "./projects.js?v=20260604-taxonomy";
+import { Header } from "./components/Header.js?v=20260604-taxonomy";
+import { Hero } from "./components/Hero.js?v=20260604-taxonomy";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260604-taxonomy";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260604-taxonomy";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260604-taxonomy";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260604-taxonomy";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260604-taxonomy";
 
 const app = document.querySelector("#app");
 const aboutOverlay = AboutOverlay();

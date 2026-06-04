@@ -1,18 +1,23 @@
-import { CategoryFilters } from "./CategoryFilters.js?v=20260603-portfolio-grid";
+import { CategoryFilters } from "./CategoryFilters.js?v=20260604-taxonomy";
+import { renderProjectTags } from "./ProjectCard.js?v=20260604-taxonomy";
+
+const FILTER_ORDER = [
+  "Tous",
+  "Mini Films",
+  "Motion Design",
+  "IA Générative",
+  "Logo & Animation",
+  "VFX / Compositing",
+  "Identité visuelle",
+];
 
 const getFilters = (projects) => {
-  const values = new Set(["Tous"]);
-
-  projects.forEach((project) => {
-    values.add(project.category);
-    project.tags?.forEach((tag) => values.add(tag));
-  });
-
-  return Array.from(values);
+  const availableCategories = new Set(projects.map((project) => project.category));
+  return FILTER_ORDER.filter((filter) => filter === "Tous" || availableCategories.has(filter));
 };
 
 const projectMatchesFilter = (project, filter) =>
-  filter === "Tous" || project.category === filter || project.tags?.includes(filter);
+  filter === "Tous" || project.category === filter;
 
 export function PortfolioGrid({ projects, onOpenProject }) {
   let activeFilter = "Tous";
@@ -57,13 +62,10 @@ export function PortfolioGrid({ projects, onOpenProject }) {
           <img src="${project.thumbnail}" alt="" loading="lazy" decoding="async" draggable="false" />
         </span>
         <span class="portfolio-card__body">
-          <span class="portfolio-card__tags">
-            ${(project.tags ?? [project.category])
-              .slice(0, 3)
-              .map((tag) => `<span>${tag}</span>`)
-              .join("")}
-          </span>
           <span class="portfolio-card__title">${project.title}</span>
+          <span class="portfolio-card__tags" aria-hidden="true">
+            ${renderProjectTags(project.tags ?? [project.category], "portfolio-card__tag")}
+          </span>
         </span>
       `;
       card.addEventListener("click", () => onOpenProject(project, card));

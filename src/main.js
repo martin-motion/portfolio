@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260604-hny-pilot";
-import { Header } from "./components/Header.js?v=20260604-hny-pilot";
-import { Hero } from "./components/Hero.js?v=20260604-hny-pilot";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260604-hny-pilot";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260604-hny-pilot";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260604-hny-pilot";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260604-hny-pilot";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260604-hny-pilot";
+import { projects } from "./projects.js?v=20260604-candy-overlay";
+import { Header } from "./components/Header.js?v=20260604-candy-overlay";
+import { Hero } from "./components/Hero.js?v=20260604-candy-overlay";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260604-candy-overlay";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260604-candy-overlay";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260604-candy-overlay";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260604-candy-overlay";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260604-candy-overlay";
 
 const app = document.querySelector("#app");
 const aboutOverlay = AboutOverlay();
@@ -62,6 +62,7 @@ selectionActions.querySelector("a").addEventListener("click", (event) => {
 selectionView.append(Hero(), carousel.element, selectionActions);
 
 const setRoute = () => {
+  const shouldOpenAbout = window.location.hash === "#about";
   const route =
     window.location.pathname === "/portfolio" || window.location.hash === "#portfolio"
       ? "portfolio"
@@ -69,6 +70,10 @@ const setRoute = () => {
   selectionView.hidden = route !== "selection";
   portfolio.element.hidden = route !== "portfolio";
   header.setActiveRoute(route);
+
+  if (shouldOpenAbout) {
+    aboutOverlay.open();
+  }
 
   if (window.location.hash) {
     history.replaceState(null, "", route === "portfolio" ? "/portfolio" : "/");

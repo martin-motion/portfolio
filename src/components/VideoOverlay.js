@@ -2,6 +2,7 @@ export function VideoOverlay({ projects, onProjectChange }) {
   let activeIndex = 0;
   let restoreFocusTo = null;
   let loadingTimer = null;
+  let controlsTimer = null;
   let currentVideo = null;
 
   const overlay = document.createElement("div");
@@ -42,9 +43,11 @@ export function VideoOverlay({ projects, onProjectChange }) {
 
   const unloadVideo = () => {
     clearTimeout(loadingTimer);
+    clearTimeout(controlsTimer);
     setLoading(false);
     player.innerHTML = "";
     currentVideo = null;
+    player.classList.remove("is-controls-hidden");
     player.classList.remove("is-portrait", "is-landscape");
     player.style.removeProperty("--video-aspect");
     player.style.removeProperty("--video-ratio");
@@ -54,12 +57,31 @@ export function VideoOverlay({ projects, onProjectChange }) {
 
   const showUnavailable = () => {
     clearTimeout(loadingTimer);
+    clearTimeout(controlsTimer);
     setLoading(false);
     currentVideo = null;
     player.innerHTML = `<div class="video-overlay__empty">Vidéo bientôt disponible</div>`;
     player.style.setProperty("--video-ratio", "1 / 1");
     player.style.setProperty("--video-width", "620px");
     panel.style.setProperty("--overlay-width", "620px");
+  };
+
+  const setNativeControls = (video, isVisible) => {
+    if (currentVideo !== video) return;
+    video.controls = isVisible;
+    player.classList.toggle("is-controls-hidden", !isVisible);
+  };
+
+  const revealNativeControls = (video, hideAfter = 1400) => {
+    if (currentVideo !== video) return;
+    clearTimeout(controlsTimer);
+    setNativeControls(video, true);
+
+    if (!video.paused && !video.ended) {
+      controlsTimer = window.setTimeout(() => {
+        setNativeControls(video, false);
+      }, hideAfter);
+    }
   };
 
   const updatePlayerFrame = (video) => {
@@ -125,11 +147,23 @@ export function VideoOverlay({ projects, onProjectChange }) {
     video.addEventListener("loadeddata", () => {
       clearTimeout(loadingTimer);
       setLoading(false);
+      revealNativeControls(video, 700);
     });
 
     video.addEventListener("playing", () => {
       clearTimeout(loadingTimer);
       setLoading(false);
+      revealNativeControls(video, 700);
+    });
+
+    video.addEventListener("pause", () => {
+      clearTimeout(controlsTimer);
+      setNativeControls(video, true);
+    });
+
+    video.addEventListener("ended", () => {
+      clearTimeout(controlsTimer);
+      setNativeControls(video, true);
     });
 
     video.addEventListener("error", () => {
@@ -179,6 +213,16 @@ export function VideoOverlay({ projects, onProjectChange }) {
   closeButton.addEventListener("click", close);
   prevButton.addEventListener("click", () => move(-1));
   nextButton.addEventListener("click", () => move(1));
+
+  player.addEventListener("pointermove", () => {
+    if (!currentVideo) return;
+    revealNativeControls(currentVideo);
+  });
+
+  player.addEventListener("pointerdown", () => {
+    if (!currentVideo) return;
+    revealNativeControls(currentVideo, 2200);
+  });
 
   overlay.addEventListener("click", (event) => {
     if (event.target === overlay) close();

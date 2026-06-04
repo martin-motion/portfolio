@@ -1,5 +1,5 @@
-import { CategoryFilters } from "./CategoryFilters.js?v=20260604-hny-pilot";
-import { renderProjectTags } from "./ProjectCard.js?v=20260604-hny-pilot";
+import { CategoryFilters } from "./CategoryFilters.js?v=20260604-candy-overlay";
+import { renderProjectTags } from "./ProjectCard.js?v=20260604-candy-overlay";
 
 const FILTER_ORDER = [
   "Tous",

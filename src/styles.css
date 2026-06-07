@@ -605,7 +605,7 @@ button {
   transform: translateX(55%) scaleX(1.2) skewX(-15deg);
 }
 
-/* Reflets 3D DOM Réels (Miroir Sharp) */
+/* Reflets 3D DOM Réels (Miroir Satiné) */
 .project-card__reflection {
   position: absolute;
   top: calc(100% + 2px);
@@ -615,7 +615,7 @@ button {
   pointer-events: none;
   transform: scaleY(-1) translateZ(-1px);
   opacity: var(--card-reflect-opacity, 0.16);
-  filter: none; /* Sharp mirror reflection */
+  filter: blur(2px); /* High-end satin mirror reflection */
   transition: opacity 620ms var(--ease-premium);
   transform-style: preserve-3d;
 }
@@ -636,9 +636,10 @@ button {
   background: linear-gradient(
     to bottom,
     var(--color-bg) 0%,
-    var(--color-bg) 60%,
-    rgba(5, 6, 13, 0.72) 80%,
-    rgba(5, 6, 13, 0.3) 90%,
+    var(--color-bg) 48%,
+    rgba(5, 6, 13, 0.82) 70%,
+    rgba(5, 6, 13, 0.45) 84%,
+    rgba(5, 6, 13, 0.15) 94%,
     rgba(5, 6, 13, 0) 100%
   );
 }

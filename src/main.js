@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260607-premium-v25";
-import { Header } from "./components/Header.js?v=20260607-premium-v25";
-import { Hero } from "./components/Hero.js?v=20260607-premium-v25";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260607-premium-v25";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260607-premium-v25";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260607-premium-v25";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260607-premium-v25";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260607-premium-v25";
+import { projects } from "./projects.js?v=20260607-premium-v26";
+import { Header } from "./components/Header.js?v=20260607-premium-v26";
+import { Hero } from "./components/Hero.js?v=20260607-premium-v26";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260607-premium-v26";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260607-premium-v26";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260607-premium-v26";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260607-premium-v26";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260607-premium-v26";
 
 
 

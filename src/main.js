@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260607-premium-v6";
-import { Header } from "./components/Header.js?v=20260607-premium-v6";
-import { Hero } from "./components/Hero.js?v=20260607-premium-v6";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260607-premium-v6";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260607-premium-v6";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260607-premium-v6";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260607-premium-v6";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260607-premium-v6";
+import { projects } from "./projects.js?v=20260607-premium-v7";
+import { Header } from "./components/Header.js?v=20260607-premium-v7";
+import { Hero } from "./components/Hero.js?v=20260607-premium-v7";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260607-premium-v7";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260607-premium-v7";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260607-premium-v7";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260607-premium-v7";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260607-premium-v7";
 import { makeMagnetic } from "./utils.js";
 
 const app = document.querySelector("#app");

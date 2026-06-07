@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260607-premium-v24";
+import { ProjectCard } from "./ProjectCard.js?v=20260607-premium-v25";
 import { makeMagnetic } from "../utils.js";
 
 const getCircularOffset = (index, activeIndex, total) => {

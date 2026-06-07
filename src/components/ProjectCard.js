@@ -29,20 +29,27 @@ export function ProjectCard({ project, index, onOpen }) {
   card.setAttribute("aria-label", `${project.title}, ${project.category}`);
   const tags = renderProjectTags(project.tags);
   card.innerHTML = `
-    <img
-      class="project-card__image"
-      src="${project.thumbnail}"
-      alt=""
-      loading="lazy"
-      decoding="async"
-      draggable="false"
-    />
-    <span class="project-card__shade" aria-hidden="true"></span>
-    <span class="project-card__meta">
-      <span class="project-card__title">${project.title}</span>
-      <span class="project-card__tags" aria-hidden="true">${tags}</span>
-    </span>
+    <div class="project-card__inner">
+      <img
+        class="project-card__image"
+        src="${project.thumbnail}"
+        alt=""
+        loading="lazy"
+        decoding="async"
+        draggable="false"
+      />
+      <span class="project-card__shade" aria-hidden="true"></span>
+      <span class="project-card__meta">
+        <span class="project-card__title">${project.title}</span>
+        <span class="project-card__tags" aria-hidden="true">${tags}</span>
+      </span>
+    </div>
+    <div class="project-card__reflection" aria-hidden="true">
+      <img class="project-card__reflection-img" src="${project.thumbnail}" alt="" loading="lazy" decoding="async" />
+      <span class="project-card__reflection-shade"></span>
+    </div>
   `;
+
 
   card.addEventListener("click", () => onOpen(project, index, card));
 

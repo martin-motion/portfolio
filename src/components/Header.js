@@ -9,9 +9,8 @@ export function Header({ onAboutOpen } = {}) {
       <a class="site-nav__link is-active" href="/" data-route-link="selection" aria-current="page">Home</a>
       <a class="site-nav__link" href="/portfolio" data-route-link="portfolio">Portfolio</a>
       <a class="site-nav__link" href="#about" data-about-link>À propos</a>
-      <a class="site-nav__link" href="mailto:martinbarbe09@gmail.com">Contact</a>
-      <a class="site-nav__link" href="https://www.instagram.com/martin.motion_/reels/" target="_blank" rel="noopener noreferrer" aria-label="Suivre sur Instagram">Instagram</a>
     </nav>
+
   `;
 
   const nav = header.querySelector(".site-nav");

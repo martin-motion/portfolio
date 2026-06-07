@@ -54,9 +54,10 @@ export function PortfolioGrid({ projects, onOpenProject }) {
     const visibleProjects = projects.filter((project) => projectMatchesFilter(project, activeFilter));
 
     grid.innerHTML = "";
-    visibleProjects.forEach((project) => {
+    visibleProjects.forEach((project, index) => {
       const card = document.createElement("button");
       card.className = "portfolio-card";
+      card.style.setProperty("--card-index", index);
       card.type = "button";
       card.setAttribute("aria-label", `${project.title}, ${project.category}`);
       const media = project.thumbnail

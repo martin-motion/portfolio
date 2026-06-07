@@ -1,3 +1,5 @@
+import { makeMagnetic } from "../utils.js";
+
 export function Header({ onAboutOpen } = {}) {
   const header = document.createElement("header");
   header.className = "site-header";
@@ -27,6 +29,8 @@ export function Header({ onAboutOpen } = {}) {
       window.dispatchEvent(new PopStateEvent("popstate"));
     });
   });
+
+  header.querySelectorAll("a").forEach((link) => makeMagnetic(link, 0.2));
 
   const setActiveRoute = (route) => {
     header.querySelectorAll("[data-route-link]").forEach((link) => {

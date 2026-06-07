@@ -231,9 +231,28 @@ export function VideoOverlay({ projects, onProjectChange }) {
   window.addEventListener("keydown", (event) => {
     if (overlay.getAttribute("aria-hidden") === "true") return;
 
-    if (event.key === "Escape") close();
-    if (event.key === "ArrowLeft") move(-1);
-    if (event.key === "ArrowRight") move(1);
+    if (event.key === "Escape") {
+      event.preventDefault();
+      close();
+    }
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      move(-1);
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      move(1);
+    }
+    if (event.key === " " || event.key === "Spacebar") {
+      event.preventDefault();
+      if (currentVideo) {
+        if (currentVideo.paused) {
+          currentVideo.play().catch(() => {});
+        } else {
+          currentVideo.pause();
+        }
+      }
+    }
   });
 
   window.addEventListener("resize", () => {

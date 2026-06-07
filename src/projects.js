@@ -111,7 +111,7 @@ export const projects = [
   },
   {
     id: "engie-solution",
-    title: "Engie Solution",
+    title: "Engie Solutions",
     category: "Motion Design",
     categories: ["Motion Design"],
     year: "2024",

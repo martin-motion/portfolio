@@ -39,6 +39,35 @@ html {
   scroll-behavior: smooth;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.6s;
+  animation-timing-function: var(--ease-premium);
+}
+
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+}
+
 body {
   position: relative;
   min-height: 100vh;
@@ -54,7 +83,7 @@ body {
     var(--color-bg);
   color: var(--color-text);
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Inter, Outfit, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
   letter-spacing: 0;
 }
@@ -116,10 +145,13 @@ button {
 }
 
 .site-header {
-  position: relative;
+  position: sticky;
+  top: 16px;
+  z-index: 1000;
   display: flex;
   justify-content: center;
   padding-inline: clamp(18px, 4vw, 56px);
+  pointer-events: none;
 }
 
 .site-nav {
@@ -128,6 +160,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: clamp(26px, 3.8vw, 60px);
+  pointer-events: auto;
   padding: 10px clamp(14px, 2vw, 22px);
   border: 1px solid rgba(190, 222, 235, 0.055);
   border-radius: 999px;
@@ -205,8 +238,7 @@ button {
 .hero__title-main,
 .hero__title-mark {
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-  sans-serif;
+    Outfit, sans-serif;
   font-size: clamp(1.42rem, 2.56vw, 2.55rem);
   letter-spacing: 0;
 }
@@ -240,30 +272,31 @@ button {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  column-gap: 12px;
-  row-gap: 4px;
+  gap: 8px;
   width: min(86vw, 560px);
   max-width: none;
-  margin: 5px auto 0;
-  color: rgba(242, 238, 232, 0.46);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(0.72rem, 0.84vw, 0.84rem);
-  font-style: italic;
-  font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: 0.015em;
-  text-align: center;
-}
-
-.hero__baseline-item + .hero__baseline-item::before {
-  content: "·";
-  display: inline-block;
-  margin-right: 12px;
-  color: rgba(242, 238, 232, 0.24);
+  margin: 16px auto 0;
 }
 
 .hero__baseline-item {
   flex: 0 0 auto;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.75);
+  font-family: Outfit, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.hero__baseline-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .carousel {
@@ -303,7 +336,7 @@ button {
   left: 50%;
   width: clamp(168px, 17.4vw, 352px);
   aspect-ratio: 1;
-  overflow: hidden;
+  clip-path: inset(0 round var(--radius-card));
   padding: 0;
   border: 1px solid rgba(242, 238, 232, var(--card-border-opacity, 0.08));
   border-radius: var(--radius-card);
@@ -415,7 +448,7 @@ button {
 }
 
 .project-card.is-active:hover .project-card__image {
-  transform: scale(1.035);
+  transform: translate(calc(var(--mouse-x, 0) * -12px), calc(var(--mouse-y, 0) * -12px)) scale(1.05);
 }
 
 .project-card__shade {
@@ -688,6 +721,7 @@ button {
   line-height: 1.04;
 }
 
+
 .category-filters {
   position: relative;
   display: flex;
@@ -756,6 +790,9 @@ button {
   color: var(--color-text);
   cursor: pointer;
   text-align: left;
+  opacity: 0;
+  animation: fadeInUpStagger 620ms var(--ease-premium) forwards;
+  animation-delay: calc(var(--card-index) * 35ms);
 }
 
 .portfolio-card__media {
@@ -1259,6 +1296,7 @@ button {
   width: min(72%, 238px);
   height: auto;
   opacity: 0.9;
+  mix-blend-mode: screen;
 }
 
 .about-overlay__content {
@@ -1332,6 +1370,87 @@ button {
   font-size: clamp(0.92rem, 1.05vw, 1.02rem);
   font-weight: 390;
   line-height: 1.62;
+}
+
+.about-overlay__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(16px, 3vw, 32px);
+  margin-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 22px;
+}
+
+.about-overlay__section h3 {
+  margin: 0 0 12px;
+  font-family: Outfit, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(242, 238, 232, 0.82);
+}
+
+.about-overlay__section ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-overlay__section li {
+  font-size: 0.86rem;
+  color: rgba(242, 238, 232, 0.62);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.about-overlay__section li::before {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(140, 172, 245, 0.62);
+  box-shadow: 0 0 8px rgba(140, 172, 245, 0.62);
+}
+
+.about-overlay__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.about-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.02);
+  color: rgba(242, 238, 232, 0.72);
+  font-size: 0.72rem;
+  font-weight: 500;
+  transition: all 180ms ease;
+}
+
+.about-badge:hover {
+  border-color: rgba(140, 172, 245, 0.3);
+  background: rgba(140, 172, 245, 0.08);
+  color: rgba(242, 238, 232, 0.94);
+  transform: translateY(-1px);
+}
+
+@keyframes fadeInUpStagger {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @media (max-width: 900px) {
@@ -1488,9 +1607,11 @@ button {
   }
 
   .hero__logo {
-    width: 120px;
-    height: 120px;
-    margin-bottom: -1px;
+    display: block;
+    margin-inline: auto;
+    margin-bottom: var(--space-md);
+    opacity: 0.8;
+    mix-blend-mode: screen;
   }
 
   .hero__baseline {

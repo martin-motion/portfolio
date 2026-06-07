@@ -1,16 +1,17 @@
 export const TAG_COLORS = {
-  "Mini film RS": { color: "214, 232, 255", tone: "115, 163, 214" },
-  "Mini film": { color: "214, 232, 255", tone: "115, 163, 214" },
-  "IA générative": { color: "190, 218, 255", tone: "108, 149, 220" },
-  "IA Générative": { color: "190, 218, 255", tone: "108, 149, 220" },
-  "Motion design": { color: "223, 232, 255", tone: "123, 151, 230" },
-  "Animation 2D": { color: "223, 232, 255", tone: "123, 151, 230" },
-  Montage: { color: "235, 222, 198", tone: "188, 143, 92" },
-  "Captation réelle": { color: "216, 238, 220", tone: "86, 162, 111" },
-  Illustration: { color: "240, 226, 154", tone: "188, 177, 48" },
-  VFX: { color: "239, 203, 255", tone: "171, 102, 216" },
-  "VFX compositing": { color: "239, 203, 255", tone: "171, 102, 216" },
-  "VFX / Compositing": { color: "239, 203, 255", tone: "171, 102, 216" },
+  "Mini film RS": { color: "255, 153, 51", tone: "204, 102, 0" }, // Orange/Ambre
+  "Mini film": { color: "255, 153, 51", tone: "204, 102, 0" },
+  "IA générative": { color: "255, 51, 204", tone: "204, 0, 153" }, // Magenta/Rose Néon
+  "IA Générative": { color: "255, 51, 204", tone: "204, 0, 153" },
+  "Motion design": { color: "51, 153, 255", tone: "10, 102, 204" }, // Bleu Azur
+  "Motion Design": { color: "51, 153, 255", tone: "10, 102, 204" },
+  "Animation 2D": { color: "102, 204, 255", tone: "51, 153, 204" }, // Cyan
+  Montage: { color: "235, 222, 198", tone: "188, 143, 92" }, // Gold
+  "Captation réelle": { color: "245, 245, 245", tone: "150, 150, 150" }, // Blanc/Gris
+  Illustration: { color: "255, 204, 51", tone: "204, 153, 0" }, // Jaune
+  VFX: { color: "0, 255, 153", tone: "0, 153, 102" }, // Vert Émeraude
+  "VFX compositing": { color: "0, 255, 153", tone: "0, 153, 102" },
+  "VFX / Compositing": { color: "0, 255, 153", tone: "0, 153, 102" },
 };
 
 export const renderProjectTags = (tags = [], className = "project-card__tag") =>

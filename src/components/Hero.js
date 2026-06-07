@@ -17,9 +17,9 @@ export function Hero() {
       <span class="hero__title-mark" aria-hidden="true">Motion</span>
     </h1>
     <p class="hero__baseline">
-      <span class="hero__baseline-item">Motion designer</span>
-      <span class="hero__baseline-item">Direction artistique</span>
-      <span class="hero__baseline-item">IA générative</span>
+      <span class="hero__baseline-item">Motion Design</span>
+      <span class="hero__baseline-item">Direction Artistique</span>
+      <span class="hero__baseline-item">IA Générative</span>
     </p>
   `;
 

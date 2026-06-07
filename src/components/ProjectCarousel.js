@@ -1,4 +1,5 @@
 import { ProjectCard } from "./ProjectCard.js?v=20260604-final-cta";
+import { makeMagnetic } from "../utils.js";
 
 const getCircularOffset = (index, activeIndex, total) => {
   const rawOffset = index - activeIndex;
@@ -50,6 +51,17 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
   const prevButton = section.querySelector(".carousel__arrow--prev");
   const nextButton = section.querySelector(".carousel__arrow--next");
   const dots = section.querySelector(".carousel__dots");
+
+  makeMagnetic(prevButton, 0.2);
+  makeMagnetic(nextButton, 0.2);
+
+  window.addEventListener("pointermove", (event) => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    const x = (event.clientX / window.innerWidth - 0.5) * 2;
+    const y = (event.clientY / window.innerHeight - 0.5) * 2;
+    document.documentElement.style.setProperty("--mouse-x", x.toFixed(3));
+    document.documentElement.style.setProperty("--mouse-y", y.toFixed(3));
+  }, { passive: true });
 
   const cards = projects.map((project, index) =>
     ProjectCard({
@@ -182,11 +194,13 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
   stage.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft") {
       event.preventDefault();
+      event.stopPropagation();
       move(-1);
     }
 
     if (event.key === "ArrowRight") {
       event.preventDefault();
+      event.stopPropagation();
       move(1);
     }
   });

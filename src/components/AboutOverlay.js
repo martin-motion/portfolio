@@ -16,13 +16,32 @@ export function AboutOverlay() {
         <p class="about-overlay__eyebrow">À propos</p>
         <h2 id="about-title"><span>Martin</span> <em>Motion</em></h2>
         <p>
-          Motion designer et directeur artistique, je conçois des images en mouvement
-          pour des films, interfaces, identités et expérimentations visuelles.
+          Motion designer et directeur artistique indépendant, je fusionne l'art du mouvement traditionnel
+          avec la puissance de l'intelligence artificielle pour concevoir des expériences visuelles captivantes,
+          des films publicitaires et des identités de marque mémorables.
         </p>
-        <p>
-          Cette fiche servira bientôt à présenter le parcours, l'approche créative
-          et une image dédiée.
-        </p>
+        <div class="about-overlay__grid">
+          <div class="about-overlay__section">
+            <h3>Expertise</h3>
+            <ul>
+              <li>Direction Artistique</li>
+              <li>Motion Design 2D & 3D</li>
+              <li>IA Générative & VFX</li>
+              <li>Montage & Post-Production</li>
+            </ul>
+          </div>
+          <div class="about-overlay__section">
+            <h3>Stack Technique</h3>
+            <div class="about-overlay__badges">
+              <span class="about-badge">After Effects</span>
+              <span class="about-badge">Cinema 4D</span>
+              <span class="about-badge">Midjourney</span>
+              <span class="about-badge">Stable Diffusion</span>
+              <span class="about-badge">Premiere Pro</span>
+              <span class="about-badge">Photoshop</span>
+            </div>
+          </div>
+        </div>
       </div>
     </article>
   `;

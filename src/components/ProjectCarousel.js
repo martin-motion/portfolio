@@ -13,11 +13,11 @@ const getCircularOffset = (index, activeIndex, total) => {
 const getDepth = (offset) => {
   const distance = Math.abs(offset);
   const depth = [
-    { scale: 1.08, veil: 0, brightness: 1.02, saturation: 1, opacity: 1, rotate: 0, y: 0, z: 92 },
-    { scale: 0.8, veil: 0.14, brightness: 0.92, saturation: 0.96, opacity: 0.95, rotate: 15, y: 10, z: -40 },
-    { scale: 0.6, veil: 0.28, brightness: 0.82, saturation: 0.9, opacity: 0.7, rotate: 30, y: 15, z: -180 },
-    { scale: 0.45, veil: 0.44, brightness: 0.72, saturation: 0.84, opacity: 0.2, rotate: 45, y: 20, z: -300 },
-    { scale: 0.3, veil: 0.6, brightness: 0.6, saturation: 0.7, opacity: 0, rotate: 60, y: 25, z: -420 },
+    { scale: 1.08, veil: 0, brightness: 1.02, saturation: 1, opacity: 1, rotate: 0, y: 0, z: 92, x: 0 },
+    { scale: 0.8, veil: 0.14, brightness: 0.92, saturation: 0.96, opacity: 0.95, rotate: 15, y: 10, z: -40, x: 120 },
+    { scale: 0.6, veil: 0.28, brightness: 0.82, saturation: 0.9, opacity: 0.5, rotate: 30, y: 15, z: -180, x: 170 },
+    { scale: 0.45, veil: 0.44, brightness: 0.72, saturation: 0.84, opacity: 0.1, rotate: 45, y: 20, z: -300, x: 190 },
+    { scale: 0.3, veil: 0.6, brightness: 0.6, saturation: 0.7, opacity: 0, rotate: 60, y: 25, z: -420, x: 200 },
   ];
 
   return depth[Math.min(distance, depth.length - 1)];
@@ -165,6 +165,7 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
       card.style.setProperty("--brightness", depth.brightness);
       card.style.setProperty("--saturation", depth.saturation);
       card.style.setProperty("--rotate-y", `${direction * -depth.rotate}deg`);
+      card.style.setProperty("--shift-x", `${direction * depth.x}px`);
       card.style.setProperty("--shift-y", `${depth.y}px`);
       card.style.setProperty("--translate-z", `${depth.z}px`);
       card.style.setProperty("--z", 100 - distance);

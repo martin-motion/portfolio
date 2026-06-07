@@ -350,17 +350,15 @@ button {
   padding: 0;
   border: none;
   border-radius: var(--radius-card);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.005)),
-    var(--color-surface);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 30px 60px rgba(0, 0, 0, 0.6);
-  -webkit-box-reflect: below 2px linear-gradient(transparent, transparent 70%, rgba(255, 255, 255, 0.15));
+  background: var(--color-surface);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  -webkit-box-reflect: below 0px linear-gradient(transparent, transparent 85%, rgba(255, 255, 255, 0.08));
   color: var(--color-text);
   cursor: pointer;
   opacity: var(--card-opacity, 1);
   transform:
     translate(-50%, -50%)
-    translateX(calc((var(--offset) * clamp(106px, 10.2vw, 202px)) + var(--drag)))
+    translateX(calc(var(--shift-x, 0px) + var(--drag)))
     translateY(var(--shift-y))
     rotateY(var(--rotate-y))
     translateZ(var(--translate-z))
@@ -417,21 +415,9 @@ button {
 }
 
 .project-card.is-active {
-  border-color: rgba(191, 214, 255, 0.28);
-  background:
-    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
-    linear-gradient(
-      var(--active-border-angle),
-      rgba(140, 172, 245, 0.62),
-      rgba(186, 150, 230, 0.34),
-      rgba(232, 205, 158, 0.46),
-      rgba(140, 172, 245, 0.62)
-    ) border-box;
   box-shadow:
-    0 28px 78px rgba(0, 0, 0, 0.62),
-    0 0 0 1px rgba(255, 255, 255, 0.055),
-    0 0 34px rgba(124, 158, 222, 0.13);
-  animation: activeCardBorder 7s ease-in-out infinite alternate;
+    0 40px 80px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(0, 0, 0, 0.3);
 }
 
 .project-card.is-active::before {
@@ -440,7 +426,6 @@ button {
 }
 
 .project-card:hover {
-  border-color: rgba(255, 255, 255, 0.28);
   filter: brightness(calc(var(--brightness) + 0.08)) saturate(1);
 }
 
@@ -556,7 +541,7 @@ button {
 }
 
 .carousel__arrow:hover {
-  transform: translateY(-50%) scale(1.04);
+  transform: scale(1.04);
 }
 
 .video-overlay__nav:hover {
@@ -581,7 +566,7 @@ button {
   z-index: 220;
   width: 64px;
   height: 64px;
-  transform: translateY(-50%);
+  margin-top: -32px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.06);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);

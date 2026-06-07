@@ -50,7 +50,6 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
   const stage = section.querySelector(".carousel__stage");
   const prevButton = section.querySelector(".carousel__arrow--prev");
   const nextButton = section.querySelector(".carousel__arrow--next");
-  const dots = section.querySelector(".carousel__dots");
 
   makeMagnetic(prevButton, 0.2);
   makeMagnetic(nextButton, 0.2);
@@ -80,8 +79,6 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
 
   cards.forEach((card, index) => {
     card.dataset.projectIndex = index;
-  });
-
   });
 
   stage.append(...cards);
@@ -164,9 +161,6 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
       card.style.setProperty("--card-opacity", depth.opacity);
       card.style.transformOrigin =
         offset < 0 ? "right center" : offset > 0 ? "left center" : "center center";
-      card.tabIndex = distance <= 2 ? 0 : -1;
-      card.setAttribute("aria-current", offset === 0 ? "true" : "false");
-    });
       card.tabIndex = distance <= 2 ? 0 : -1;
       card.setAttribute("aria-current", offset === 0 ? "true" : "false");
     });

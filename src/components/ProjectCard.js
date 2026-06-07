@@ -23,9 +23,10 @@ export const renderProjectTags = (tags = [], className = "project-card__tag") =>
     .join("");
 
 export function ProjectCard({ project, index, onOpen }) {
-  const card = document.createElement("button");
+  const card = document.createElement("div");
   card.className = "project-card";
-  card.type = "button";
+  card.setAttribute("role", "button");
+  card.setAttribute("tabindex", "0");
   card.setAttribute("aria-label", `${project.title}, ${project.category}`);
   const tags = renderProjectTags(project.tags);
   card.innerHTML = `
@@ -52,6 +53,12 @@ export function ProjectCard({ project, index, onOpen }) {
 
 
   card.addEventListener("click", () => onOpen(project, index, card));
+  card.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onOpen(project, index, card);
+    }
+  });
 
   return card;
 }

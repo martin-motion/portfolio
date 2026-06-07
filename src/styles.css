@@ -619,8 +619,6 @@ button {
   filter: none; /* Sharp mirror reflection */
   transition: opacity 620ms var(--ease-premium);
   transform-style: preserve-3d;
-  backface-visibility: hidden;
-  z-index: -1;
 }
 
 .project-card__reflection-img {

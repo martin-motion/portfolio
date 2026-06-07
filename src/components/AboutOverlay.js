@@ -1,3 +1,5 @@
+import { makeMagnetic } from "../utils.js";
+
 export function AboutOverlay() {
   let restoreFocusTo = null;
 
@@ -10,16 +12,13 @@ export function AboutOverlay() {
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
       </button>
       <div class="about-overlay__media" aria-hidden="true">
-        <img src="./assets/logo/logo-liquid.png?v=20260607-premium-v13" alt="" loading="lazy" decoding="async" />
+        <img src="./assets/logo/logo-liquid.png?v=20260607-premium-v14" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="about-overlay__content">
         <p class="about-overlay__eyebrow">À propos</p>
         <h2 id="about-title"><span>Martin</span> <em>Motion</em></h2>
-        <p class="about-overlay__intro">
-          Concevoir des expériences uniques avec un fil rouge narratif fort pour des images qui racontent une histoire et marquent les esprits.
-        </p>
-        <p class="about-overlay__desc">
-          Martin Motion est un studio de création et d'exploration visuelle spécialisé en Direction Artistique, Motion Design premium et intelligence artificielle générative pour concevoir des projets et des films à forte identité.
+        <p class="about-overlay__presentation">
+          Concevoir des expériences uniques, guidées par un fil rouge narratif fort, pour façonner des univers visuels porteurs de sens et d’émotion. Directeur Artistique et Motion Designer indépendant, je développe une approche hybride, entre savoir-faire traditionnels, design de mouvement, direction visuelle et intelligence artificielle, pour donner vie à des projets et des films singuliers, à forte identité.
         </p>
         <div class="about-overlay__grid">
           <div class="about-overlay__section">
@@ -27,13 +26,12 @@ export function AboutOverlay() {
             <ul>
               <li>Direction Artistique</li>
               <li>Motion Design</li>
-              <li>IA Générative & VFX</li>
+              <li>IA & VFX</li>
               <li>Montage & Post-Production</li>
             </ul>
             <div class="about-overlay__contact">
-              <a href="mailto:martinbarbe09@gmail.com" class="about-contact-link">
-                <span>Nous contacter</span>
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <a href="mailto:martinbarbe09@gmail.com" class="about-contact-btn" aria-label="Me contacter par email">
+                <span>Contact</span>
               </a>
             </div>
           </div>
@@ -120,6 +118,11 @@ export function AboutOverlay() {
   };
 
   closeButton.addEventListener("click", close);
+
+  const contactBtn = overlay.querySelector(".about-contact-btn");
+  if (contactBtn) {
+    makeMagnetic(contactBtn, 0.2);
+  }
 
   overlay.addEventListener("click", (event) => {
     if (event.target === overlay) close();

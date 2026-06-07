@@ -358,7 +358,7 @@ button {
   opacity: var(--card-opacity, 1);
   transform:
     translate(-50%, -50%)
-    translateX(calc(var(--shift-x, 0px) + var(--drag)))
+    translateX(calc((var(--shift-x-mult, 0) * clamp(110px, 10vw, 190px)) + var(--drag)))
     translateY(var(--shift-y))
     rotateY(var(--rotate-y))
     translateZ(var(--translate-z))
@@ -1298,7 +1298,6 @@ button {
   width: min(72%, 238px);
   height: auto;
   opacity: 0.9;
-  mix-blend-mode: screen;
 }
 
 .about-overlay__content {

@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260604-final-cta";
+import { ProjectCard } from "./ProjectCard.js?v=20260607-premium-v20";
 import { makeMagnetic } from "../utils.js";
 
 const getCircularOffset = (index, activeIndex, total) => {
@@ -155,7 +155,7 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
       card.style.setProperty("--z", 100 - distance);
       card.style.setProperty("--card-border-opacity", borderOpacity);
       card.style.setProperty("--card-opacity", depth.opacity);
-      const reflectOpacity = [0.38, 0.22, 0.12, 0.05][Math.min(distance, 3)];
+      const reflectOpacity = [0.52, 0.36, 0.2, 0.08][Math.min(distance, 3)];
       card.style.setProperty("--card-reflect-opacity", reflectOpacity);
       card.style.transformOrigin =
 
@@ -258,6 +258,40 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
 
   stage.addEventListener("pointerup", endDrag);
   stage.addEventListener("pointercancel", endDrag);
+
+  // Correction bug slide sur téléphone : bloquer le scroll natif si le geste est horizontal
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isTouchActive = false;
+
+  stage.addEventListener("touchstart", (event) => {
+    if (event.touches.length === 1) {
+      touchStartX = event.touches[0].clientX;
+      touchStartY = event.touches[0].clientY;
+      isTouchActive = true;
+    }
+  }, { passive: true });
+
+  stage.addEventListener("touchmove", (event) => {
+    if (!isTouchActive || event.touches.length !== 1) return;
+    const dx = event.touches[0].clientX - touchStartX;
+    const dy = event.touches[0].clientY - touchStartY;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+      if (event.cancelable) {
+        event.preventDefault();
+      }
+    } else {
+      isTouchActive = false;
+    }
+  }, { passive: false });
+
+  stage.addEventListener("touchend", () => {
+    isTouchActive = false;
+  });
+  stage.addEventListener("touchcancel", () => {
+    isTouchActive = false;
+  });
 
   window.addEventListener("keydown", (event) => {
     const overlayOpen = document.body.classList.contains("has-overlay");

@@ -37,9 +37,11 @@ export function AboutOverlay() {
               <span class="about-badge">After Effects</span>
               <span class="about-badge">Cinema 4D</span>
               <span class="about-badge">Midjourney</span>
-              <span class="about-badge">Stable Diffusion</span>
+              <span class="about-badge">Kling</span>
+              <span class="about-badge">Seedance</span>
+              <span class="about-badge">Gemini</span>
+              <span class="about-badge">Flux</span>
               <span class="about-badge">Premiere Pro</span>
-              <span class="about-badge">Photoshop</span>
             </div>
           </div>
         </div>

@@ -152,9 +152,9 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(26px, 3.8vw, 60px);
+  gap: clamp(8px, 1.5vw, 16px);
   pointer-events: auto;
-  padding: 10px clamp(14px, 2vw, 22px);
+  padding: 8px;
   border: 1px solid rgba(190, 222, 235, 0.055);
   border-radius: 999px;
   background:
@@ -166,8 +166,24 @@ button {
   backdrop-filter: blur(18px);
 }
 
+.site-nav__pill {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 0;
+  z-index: 1;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), width 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+  opacity: 0;
+}
+
 .site-nav__link {
   position: relative;
+  z-index: 2;
+  padding: 6px 14px;
   color: rgba(242, 238, 232, 0.22);
   font-size: clamp(0.76rem, 0.92vw, 0.86rem);
   font-weight: 470;
@@ -331,7 +347,6 @@ button {
   left: 50%;
   width: clamp(168px, 17.4vw, 352px);
   aspect-ratio: 1;
-  clip-path: inset(0 round var(--radius-card));
   padding: 0;
   border: none;
   border-radius: var(--radius-card);
@@ -339,9 +354,10 @@ button {
     linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.005)),
     var(--color-surface);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 30px 60px rgba(0, 0, 0, 0.6);
+  -webkit-box-reflect: below 2px linear-gradient(transparent, transparent 70%, rgba(255, 255, 255, 0.15));
   color: var(--color-text);
   cursor: pointer;
-  opacity: 1;
+  opacity: var(--card-opacity, 1);
   transform:
     translate(-50%, -50%)
     translateX(calc((var(--offset) * clamp(106px, 10.2vw, 202px)) + var(--drag)))
@@ -441,7 +457,8 @@ button {
   object-position: center center;
   transform: scale(1.02);
   transform-origin: center center;
-  transition: transform 520ms var(--ease-premium);
+  clip-path: inset(0 round var(--radius-card));
+  transition: transform 380ms var(--ease-premium);
 }
 
 .project-card.is-active:hover .project-card__image {
@@ -454,6 +471,7 @@ button {
   z-index: 2;
   height: 32%;
   background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.52) 78%);
+  clip-path: inset(0 round var(--radius-card));
 }
 
 .project-card__meta {
@@ -548,30 +566,33 @@ button {
 .carousel__arrow svg,
 .video-overlay__nav svg,
 .video-overlay__close svg {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.7;
+  stroke-width: 1.5;
 }
 
 .carousel__arrow {
   position: absolute;
   top: var(--gallery-center-y);
   z-index: 220;
-  width: 48px;
-  height: 48px;
+  width: 64px;
+  height: 64px;
   transform: translateY(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
 .carousel__arrow--prev {
-  left: clamp(38px, 6.6vw, 108px);
+  left: clamp(24px, 4vw, 64px);
 }
 
 .carousel__arrow--next {
-  right: clamp(38px, 6.6vw, 108px);
+  right: clamp(24px, 4vw, 64px);
 }
 
 .carousel__dots {
@@ -891,7 +912,7 @@ button {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 200;
+  z-index: 9999;
   width: 30px;
   height: 30px;
   border: 1px solid rgba(242, 238, 232, 0.42);
@@ -1034,7 +1055,7 @@ button {
 
 .video-overlay__meta h2 {
   margin-top: 5px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Outfit, sans-serif;
   font-size: clamp(1.35rem, 3vw, 2.35rem);
   font-weight: 500;
   line-height: 1;

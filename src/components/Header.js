@@ -6,7 +6,7 @@ export function Header({ onAboutOpen } = {}) {
   header.innerHTML = `
     <nav class="site-nav" aria-label="Navigation principale">
       <div class="site-nav__pill"></div>
-      <a class="site-nav__link is-active" href="/" data-route-link="selection" aria-current="page">Home</a>
+      <a class="site-nav__link is-active" href="/" data-route-link="selection" aria-current="page">Welcome</a>
       <a class="site-nav__link" href="/portfolio" data-route-link="portfolio">Portfolio</a>
       <a class="site-nav__link" href="#about" data-about-link>À propos</a>
       <a class="site-nav__link" href="mailto:martinbarbe09@gmail.com">Contact</a>

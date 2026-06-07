@@ -53,6 +53,16 @@ html {
   background: rgba(255, 255, 255, 0.25);
 }
 
+::selection {
+  background: rgba(140, 172, 245, 0.28);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid rgba(140, 172, 245, 0.6);
+  outline-offset: 4px;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 0.6s;
@@ -66,6 +76,8 @@ body {
   min-height: 100vh;
   margin: 0;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background:
     radial-gradient(ellipse at 22% 0%, rgba(92, 60, 148, 0.17), transparent 35%),
     radial-gradient(ellipse at 74% 18%, rgba(50, 84, 148, 0.14), transparent 44%),
@@ -189,6 +201,7 @@ button {
   font-weight: 470;
   line-height: 1;
   text-decoration: none;
+  user-select: none;
   transition: color 220ms ease;
 }
 
@@ -573,6 +586,7 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.06);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  user-select: none;
 }
 
 .carousel__arrow--prev {

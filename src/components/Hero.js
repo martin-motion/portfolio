@@ -7,9 +7,10 @@ export function Hero() {
       class="hero__logo"
       width="168"
       height="168"
-      src="./assets/logo/logo-liquid.png?v=20260604-final-cta"
+      src="./assets/logo/logo-liquid.png?v=20260607-premium-v7"
       alt=""
-      decoding="async"
+      decoding="sync"
+      fetchpriority="high"
       aria-hidden="true"
     />
     <h1 id="hero-title" class="hero__title" aria-label="Martin Motion">

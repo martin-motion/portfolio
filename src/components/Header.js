@@ -21,8 +21,8 @@ export function Header({ onAboutOpen } = {}) {
     if (!target) return;
     const rect = target.getBoundingClientRect();
     const navRect = nav.getBoundingClientRect();
-    pill.style.width = \`\${rect.width}px\`;
-    pill.style.transform = \`translateX(\${rect.left - navRect.left}px)\`;
+    pill.style.width = `${rect.width}px`;
+    pill.style.transform = `translateX(${rect.left - navRect.left}px)`;
   };
 
   links.forEach((link) => {

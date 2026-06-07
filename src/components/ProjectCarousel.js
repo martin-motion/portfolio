@@ -14,10 +14,10 @@ const getDepth = (offset) => {
   const distance = Math.abs(offset);
   const depth = [
     { scale: 1.08, veil: 0, brightness: 1.02, saturation: 1, opacity: 1, rotate: 0, y: 0, z: 92, xOffset: 0 },
-    { scale: 0.8, veil: 0.1, brightness: 0.95, saturation: 0.96, opacity: 0.95, rotate: 15, y: 10, z: -40, xOffset: 1 },
-    { scale: 0.6, veil: 0.25, brightness: 0.85, saturation: 0.9, opacity: 0.85, rotate: 30, y: 15, z: -180, xOffset: 1.55 },
-    { scale: 0.45, veil: 0.4, brightness: 0.75, saturation: 0.84, opacity: 0.7, rotate: 45, y: 20, z: -300, xOffset: 1.9 },
-    { scale: 0.3, veil: 0.6, brightness: 0.6, saturation: 0.7, opacity: 0.5, rotate: 60, y: 25, z: -420, xOffset: 2.15 },
+    { scale: 0.8, veil: 0.15, brightness: 0.85, saturation: 0.96, opacity: 1, rotate: 15, y: 10, z: -40, xOffset: 1 },
+    { scale: 0.6, veil: 0.35, brightness: 0.75, saturation: 0.9, opacity: 1, rotate: 30, y: 15, z: -180, xOffset: 1.55 },
+    { scale: 0.45, veil: 0.55, brightness: 0.6, saturation: 0.84, opacity: 1, rotate: 45, y: 20, z: -300, xOffset: 1.9 },
+    { scale: 0.3, veil: 0.75, brightness: 0.45, saturation: 0.7, opacity: 1, rotate: 60, y: 25, z: -420, xOffset: 2.15 },
   ];
 
   return depth[Math.min(distance, depth.length - 1)];
@@ -45,7 +45,6 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
       </button>
     </div>
-    <div class="carousel__dots" aria-label="Pagination des projets"></div>
   `;
 
   const stage = section.querySelector(".carousel__stage");
@@ -83,17 +82,9 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
     card.dataset.projectIndex = index;
   });
 
-  const dotButtons = projects.map((project, index) => {
-    const dot = document.createElement("button");
-    dot.className = "carousel__dot";
-    dot.type = "button";
-    dot.setAttribute("aria-label", `Afficher ${project.title}`);
-    dot.addEventListener("click", () => setActiveIndex(index));
-    return dot;
   });
 
   stage.append(...cards);
-  dots.append(...dotButtons);
 
   const setActiveIndex = (index) => {
     activeIndex = (index + projects.length) % projects.length;
@@ -176,18 +167,8 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
       card.tabIndex = distance <= 2 ? 0 : -1;
       card.setAttribute("aria-current", offset === 0 ? "true" : "false");
     });
-
-    dotButtons.forEach((dot, index) => {
-      const offset = getCircularOffset(index, activeIndex, projects.length);
-      const distance = Math.abs(offset);
-      const dotOpacity = [0.86, 0.34, 0.16, 0][Math.min(distance, 3)];
-      const dotScale = [1, 0.74, 0.56, 0.42][Math.min(distance, 3)];
-
-      dot.classList.toggle("is-active", distance === 0);
-      dot.classList.toggle("is-hidden", distance > 2);
-      dot.style.setProperty("--dot-opacity", dotOpacity);
-      dot.style.setProperty("--dot-scale", dotScale);
-      dot.setAttribute("aria-current", distance === 0 ? "true" : "false");
+      card.tabIndex = distance <= 2 ? 0 : -1;
+      card.setAttribute("aria-current", offset === 0 ? "true" : "false");
     });
   };
 

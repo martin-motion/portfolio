@@ -16,10 +16,7 @@ export function AboutOverlay() {
         <p class="about-overlay__eyebrow">À propos</p>
         <h2 id="about-title"><span>Martin</span> <em>Motion</em></h2>
         <p>
-          Studio de création et d'exploration visuelle spécialisé en Direction Artistique et Motion Design. 
-          La démarche repose sur une hybridation des workflows : l'alliance de l'art du mouvement traditionnel 
-          avec l'exploration continue de l'intelligence artificielle générative pour concevoir des expériences 
-          et des films à forte identité.
+          Studio de création et d'exploration visuelle spécialisé en Direction Artistique, Motion Design et intelligence artificielle générative pour concevoir des expériences et des films à forte identité.
         </p>
         <div class="about-overlay__grid">
           <div class="about-overlay__section">

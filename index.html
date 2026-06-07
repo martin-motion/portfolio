@@ -14,16 +14,42 @@
     <link rel="icon" type="image/png" href="./assets/favicon/favicon.png?v=20260603-5" />
     <link rel="apple-touch-icon" href="./assets/favicon/favicon.png?v=20260603-5" />
     <meta name="theme-color" content="#05060d" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.vercel-insights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self' https://martin-motion-media.martinbarbe09.workers.dev; connect-src 'self' https://*.vercel-insights.com https://*.vercel-analytics.com;"
+    />
     <link
       rel="preload"
-      href="./assets/logo/logo-liquid.png?v=20260607-premium-v12"
+      href="./assets/logo/logo-liquid.png?v=20260607-premium-v13"
       as="image"
       type="image/png"
     />
-    <link rel="stylesheet" href="./src/styles.css?v=20260607-premium-v12" />
+    <link rel="stylesheet" href="./src/styles.css?v=20260607-premium-v13" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Martin Motion",
+        "image": "https://martin-motion.vercel.app/assets/logo/logo-liquid.png",
+        "url": "https://martin-motion.vercel.app",
+        "description": "Studio de création visuelle premium spécialisé en Direction Artistique, Motion Design et IA Générative.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Paris",
+          "addressCountry": "FR"
+        },
+        "knowsAbout": [
+          "Motion Design",
+          "Direction Artistique",
+          "IA Générative",
+          "VFX Compositing",
+          "Montage Vidéo"
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="./src/main.js?v=20260607-premium-v12"></script>
+    <script type="module" src="./src/main.js?v=20260607-premium-v13"></script>
   </body>
 </html>

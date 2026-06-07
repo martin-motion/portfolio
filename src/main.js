@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260607-premium-v12";
-import { Header } from "./components/Header.js?v=20260607-premium-v12";
-import { Hero } from "./components/Hero.js?v=20260607-premium-v12";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260607-premium-v12";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260607-premium-v12";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260607-premium-v12";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260607-premium-v12";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260607-premium-v12";
+import { projects } from "./projects.js?v=20260607-premium-v13";
+import { Header } from "./components/Header.js?v=20260607-premium-v13";
+import { Hero } from "./components/Hero.js?v=20260607-premium-v13";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260607-premium-v13";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260607-premium-v13";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260607-premium-v13";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260607-premium-v13";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260607-premium-v13";
 import { makeMagnetic } from "./utils.js";
 
 const app = document.querySelector("#app");
@@ -111,3 +111,16 @@ app.append(
 window.addEventListener("hashchange", setRoute);
 window.addEventListener("popstate", setRoute);
 setRoute();
+
+// Halo Lumineux d'Arrière-plan Interactif
+const glowBg = document.createElement("div");
+glowBg.className = "mouse-glow";
+document.body.prepend(glowBg);
+
+window.addEventListener("pointermove", (event) => {
+  if (window.matchMedia("(pointer: coarse)").matches) return;
+  document.body.classList.add("has-glow");
+  glowBg.style.setProperty("--mouse-glow-x", `${event.clientX}px`);
+  glowBg.style.setProperty("--mouse-glow-y", `${event.clientY}px`);
+}, { passive: true });
+

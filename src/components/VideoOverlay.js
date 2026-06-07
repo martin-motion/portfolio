@@ -189,6 +189,39 @@ export function VideoOverlay({ projects, onProjectChange }) {
     renderProject();
   };
 
+  const getFocusableElements = () => {
+    return Array.from(
+      panel.querySelectorAll('button, video, [href], [tabindex]:not([tabindex="-1"])')
+    ).filter(el => {
+      // Filtrer les flèches si elles sont masquées par CSS en responsive/mobile
+      const style = window.getComputedStyle(el);
+      return style.display !== 'none' && style.visibility !== 'hidden';
+    });
+  };
+
+  const handleFocusTrap = (event) => {
+    if (overlay.getAttribute("aria-hidden") === "true") return;
+    if (event.key !== "Tab") return;
+
+    const focusables = getFocusableElements();
+    if (focusables.length === 0) return;
+
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    if (event.shiftKey) {
+      if (document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+  };
+
   const open = (project, index, trigger) => {
     activeIndex = index;
     restoreFocusTo = trigger ?? document.activeElement;
@@ -196,7 +229,15 @@ export function VideoOverlay({ projects, onProjectChange }) {
     document.documentElement.classList.add("has-overlay");
     document.body.classList.add("has-overlay");
     renderProject(project);
-    panel.focus({ preventScroll: true });
+    
+    window.setTimeout(() => {
+      const focusables = getFocusableElements();
+      if (focusables.length > 0) {
+        focusables[0].focus({ preventScroll: true });
+      } else {
+        panel.focus({ preventScroll: true });
+      }
+    }, 100);
   };
 
   const close = () => {
@@ -223,6 +264,8 @@ export function VideoOverlay({ projects, onProjectChange }) {
     if (!currentVideo) return;
     revealNativeControls(currentVideo, 2200);
   });
+
+  panel.addEventListener("keydown", handleFocusTrap);
 
   overlay.addEventListener("click", (event) => {
     if (event.target === overlay) close();

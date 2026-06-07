@@ -9,8 +9,20 @@ export function Header({ onAboutOpen } = {}) {
       <a class="site-nav__link is-active" href="/" data-route-link="selection" aria-current="page">Home</a>
       <a class="site-nav__link" href="/portfolio" data-route-link="portfolio">Portfolio</a>
       <a class="site-nav__link" href="#about" data-about-link>À propos</a>
+      <div class="site-nav__more">
+        <button class="site-nav__more-trigger" type="button" aria-label="Plus d'options de contact" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true" width="14" height="14"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="site-nav__dropdown" aria-hidden="true">
+          <a class="site-nav__dropdown-item" href="mailto:martinbarbe09@gmail.com">
+            <span>Email</span>
+          </a>
+          <a class="site-nav__dropdown-item" href="https://www.instagram.com/martin.motion_/reels/" target="_blank" rel="noopener noreferrer">
+            <span>Instagram</span>
+          </a>
+        </div>
+      </div>
     </nav>
-
   `;
 
   const nav = header.querySelector(".site-nav");
@@ -52,6 +64,31 @@ export function Header({ onAboutOpen } = {}) {
     });
   }
 
+  // Logique du bouton dropdown "+"
+  const moreContainer = header.querySelector(".site-nav__more");
+  const moreTrigger = header.querySelector(".site-nav__more-trigger");
+  const dropdown = header.querySelector(".site-nav__dropdown");
+
+  if (moreTrigger && dropdown) {
+    moreTrigger.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isOpen = moreContainer.classList.toggle("is-open");
+      moreTrigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      dropdown.setAttribute("aria-hidden", isOpen ? "false" : "true");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (moreContainer.classList.contains("is-open") && !moreContainer.contains(e.target)) {
+        moreContainer.classList.remove("is-open");
+        moreTrigger.setAttribute("aria-expanded", "false");
+        dropdown.setAttribute("aria-hidden", "true");
+      }
+    });
+
+    // Rendre le bouton plus magnétique
+    makeMagnetic(moreTrigger, 0.25);
+  }
 
   const aboutLink = header.querySelector("[data-about-link]");
   aboutLink.addEventListener("click", (event) => {

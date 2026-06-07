@@ -1,11 +1,12 @@
-import { projects } from "./projects.js?v=20260607-premium-v17";
-import { Header } from "./components/Header.js?v=20260607-premium-v17";
-import { Hero } from "./components/Hero.js?v=20260607-premium-v17";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260607-premium-v17";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260607-premium-v17";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260607-premium-v17";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260607-premium-v17";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260607-premium-v17";
+import { projects } from "./projects.js?v=20260607-premium-v18";
+import { Header } from "./components/Header.js?v=20260607-premium-v18";
+import { Hero } from "./components/Hero.js?v=20260607-premium-v18";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260607-premium-v18";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260607-premium-v18";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260607-premium-v17"; // Projects cache doesn't need to change but let's change all core files to v18
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260607-premium-v18";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260607-premium-v18";
+
 
 
 import { makeMagnetic } from "./utils.js";

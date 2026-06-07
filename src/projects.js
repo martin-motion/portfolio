@@ -10,7 +10,7 @@ export const projects = [
     role: "Direction artistique",
     thumbnail: "./assets/thumbnails/lumen.webp?v=20260604-final-cta",
     tags: ["Mini film RS", "IA générative"],
-    featured: false,
+    featured: true,
     videoUrl: `${mediaBaseUrl}/danse-reel-v01-insta-2.mp4`,
   },
   {

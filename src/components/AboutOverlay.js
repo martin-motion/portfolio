@@ -12,7 +12,7 @@ export function AboutOverlay() {
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
       </button>
       <div class="about-overlay__media" aria-hidden="true">
-        <img src="./assets/logo/logo-liquid.png?v=20260607-premium-v15" alt="" loading="lazy" decoding="async" />
+        <img src="./assets/logo/logo-liquid.png?v=20260607-premium-v16" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="about-overlay__content">
         <p class="about-overlay__eyebrow">À propos</p>
@@ -34,14 +34,6 @@ export function AboutOverlay() {
               <li>IA & VFX</li>
               <li>Montage & Post-Production</li>
             </ul>
-            <div class="about-overlay__contact">
-              <a href="mailto:martinbarbe09@gmail.com" class="about-contact-btn" aria-label="Me contacter par email">
-                <span>Contact</span>
-              </a>
-              <a href="https://www.instagram.com/martin.motion_/" target="_blank" rel="noopener noreferrer" class="about-contact-btn" aria-label="Me suivre sur Instagram">
-                <span>Instagram</span>
-              </a>
-            </div>
           </div>
           <div class="about-overlay__section">
             <h3>Stack Technique</h3>
@@ -58,6 +50,14 @@ export function AboutOverlay() {
               <span class="about-badge">Premiere Pro</span>
             </div>
           </div>
+        </div>
+        <div class="about-overlay__contact">
+          <a href="mailto:martinbarbe09@gmail.com" class="about-contact-btn" aria-label="Me contacter par email">
+            <span>Contact</span>
+          </a>
+          <a href="https://www.instagram.com/martin.motion_/reels/" target="_blank" rel="noopener noreferrer" class="about-contact-btn" aria-label="Me suivre sur Instagram">
+            <span>Instagram</span>
+          </a>
         </div>
       </div>
     </article>

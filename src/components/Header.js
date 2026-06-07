@@ -10,7 +10,7 @@ export function Header({ onAboutOpen } = {}) {
       <a class="site-nav__link" href="/portfolio" data-route-link="portfolio">Portfolio</a>
       <a class="site-nav__link" href="#about" data-about-link>À propos</a>
       <a class="site-nav__link" href="mailto:martinbarbe09@gmail.com">Contact</a>
-      <a class="site-nav__link" href="https://www.instagram.com/martin.motion_/" target="_blank" rel="noopener noreferrer" aria-label="Suivre sur Instagram">Instagram</a>
+      <a class="site-nav__link" href="https://www.instagram.com/martin.motion_/reels/" target="_blank" rel="noopener noreferrer" aria-label="Suivre sur Instagram">Instagram</a>
     </nav>
   `;
 
@@ -40,14 +40,19 @@ export function Header({ onAboutOpen } = {}) {
     pill.style.opacity = "1";
   });
 
-  // Positionner la pilule au chargement
-  window.requestAnimationFrame(() => {
-    const activeLink = nav.querySelector(".is-active");
-    if (activeLink) {
-      pill.style.opacity = "1";
-      updatePill(activeLink);
-    }
-  });
+  // Positionner la pilule au chargement sans transition pour éviter le saut visuel
+  const activeLink = nav.querySelector(".is-active");
+  if (activeLink) {
+    pill.style.transition = "none";
+    pill.style.opacity = "1";
+    updatePill(activeLink);
+    // Forcer un reflow
+    pill.offsetHeight;
+    window.requestAnimationFrame(() => {
+      pill.style.transition = "";
+    });
+  }
+
 
   const aboutLink = header.querySelector("[data-about-link]");
   aboutLink.addEventListener("click", (event) => {

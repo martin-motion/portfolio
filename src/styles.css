@@ -225,10 +225,12 @@ button {
   font-size: clamp(0.76rem, 0.92vw, 0.86rem);
   font-weight: 470;
   line-height: 1;
+  white-space: nowrap;
   text-decoration: none;
   user-select: none;
   transition: color 220ms ease;
 }
+
 
 .site-nav__link:hover,
 .site-nav__link.is-active {
@@ -406,7 +408,6 @@ button {
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.08),
     0 30px 60px rgba(0, 0, 0, 0.6);
-  -webkit-box-reflect: below 2px linear-gradient(transparent, transparent 50%, rgba(255, 255, 255, 0.12));
   color: var(--color-text);
   cursor: pointer;
   opacity: var(--card-opacity, 1);
@@ -437,6 +438,7 @@ button {
     rgba(0, 0, 0, var(--veil-opacity));
   content: "";
   pointer-events: none;
+  clip-path: inset(0 round var(--radius-card));
   transition: opacity 420ms ease;
 }
 
@@ -460,11 +462,13 @@ button {
   mix-blend-mode: overlay;
   opacity: 0;
   pointer-events: none;
+  clip-path: inset(0 round var(--radius-card));
   transform: translateX(-55%) scaleX(1.2) skewX(-15deg);
   transition:
     opacity 350ms ease,
     transform 920ms var(--ease-premium);
 }
+
 
 .carousel__stage.is-dragging .project-card {
   transition-duration: 90ms;
@@ -475,7 +479,9 @@ button {
     inset 0 0 0 1px rgba(255, 255, 255, 0.25),
     0 0 30px rgba(255, 255, 255, 0.04),
     0 40px 80px rgba(0, 0, 0, 0.8);
+  -webkit-box-reflect: below 2px linear-gradient(transparent, transparent 50%, rgba(255, 255, 255, 0.12));
 }
+
 
 .project-card.is-active::before {
   opacity: 0.12;
@@ -1264,11 +1270,13 @@ button {
   padding: clamp(16px, 3vw, 42px);
   background: rgba(0, 0, 0, 0.78);
   opacity: 0;
-  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   pointer-events: none;
   transition: opacity 260ms ease;
   backdrop-filter: blur(16px);
 }
+
 
 .about-overlay[aria-hidden="false"] {
   opacity: 1;
@@ -1481,11 +1489,13 @@ button {
   font-size: 0.84rem;
   font-weight: 540;
   letter-spacing: 0.04em;
+  white-space: nowrap;
   text-decoration: none;
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.4),
     0 0 16px rgba(140, 172, 245, 0.03);
   backdrop-filter: blur(16px);
+
   -webkit-backdrop-filter: blur(16px);
   overflow: hidden;
   transition: 
@@ -1581,8 +1591,10 @@ button {
   color: rgba(242, 238, 232, 0.72);
   font-size: 0.72rem;
   font-weight: 500;
+  white-space: nowrap;
   transition: all 180ms ease;
 }
+
 
 .about-badge:hover {
   border-color: rgba(140, 172, 245, 0.3);
@@ -1684,12 +1696,15 @@ button {
   .site-nav {
     width: 100%;
     justify-content: center;
-    gap: clamp(18px, 5.5vw, 26px);
+    gap: clamp(4px, 1.8vw, 12px);
+    padding: 6px;
   }
 
   .site-nav__link {
-    font-size: 0.7rem;
+    font-size: clamp(0.64rem, 2.2vw, 0.74rem);
+    padding: 6px clamp(4px, 1.2vw, 8px);
   }
+
 
   .portfolio-view {
     padding: 40px 14px 0;
@@ -1787,8 +1802,9 @@ button {
 
   .project-card {
     width: min(68vw, 286px);
-    border-radius: 18px;
+    --radius-card: 18px;
   }
+
 
   .carousel__arrow {
     width: 42px;
@@ -1820,9 +1836,10 @@ button {
 
   .about-overlay__panel {
     gap: 20px;
-    padding: 22px;
+    padding: 48px 22px 22px 22px;
     border-radius: 20px;
   }
+
 
   .about-overlay__close {
     top: 12px;
@@ -1877,9 +1894,7 @@ button {
     padding-top: 22px;
   }
 
-  .site-nav {
-    gap: clamp(28px, 9vw, 42px);
-  }
+
 
   .hero {
     padding-top: 14px;

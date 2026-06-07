@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260607-premium-v23";
+import { ProjectCard } from "./ProjectCard.js?v=20260607-premium-v24";
 import { makeMagnetic } from "../utils.js";
 
 const getCircularOffset = (index, activeIndex, total) => {
@@ -155,7 +155,7 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
       card.style.setProperty("--z", 100 - distance);
       card.style.setProperty("--card-border-opacity", borderOpacity);
       card.style.setProperty("--card-opacity", depth.opacity);
-      const reflectOpacity = [0.42, 0.28, 0.16, 0.06][Math.min(distance, 3)];
+      const reflectOpacity = [0.35, 0.22, 0.12, 0.04][Math.min(distance, 3)];
       card.style.setProperty("--card-reflect-opacity", reflectOpacity);
       card.style.transformOrigin =
 

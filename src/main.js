@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260607-premium-v14";
-import { Header } from "./components/Header.js?v=20260607-premium-v14";
-import { Hero } from "./components/Hero.js?v=20260607-premium-v14";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260607-premium-v14";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260607-premium-v14";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260607-premium-v14";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260607-premium-v14";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260607-premium-v14";
+import { projects } from "./projects.js?v=20260607-premium-v15";
+import { Header } from "./components/Header.js?v=20260607-premium-v15";
+import { Hero } from "./components/Hero.js?v=20260607-premium-v15";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260607-premium-v15";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260607-premium-v15";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260607-premium-v15";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260607-premium-v15";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260607-premium-v15";
 import { makeMagnetic } from "./utils.js";
 
 const app = document.querySelector("#app");
@@ -35,6 +35,20 @@ const carousel = ProjectCarousel({
     const projectIndex = projects.findIndex((item) => item.id === project.id);
     overlay.open(project, projectIndex, trigger);
   },
+  onActiveChange: (project) => {
+    // Teinte dynamique du halo de fond par projet
+    const colors = {
+      "lumen": "rgba(92, 120, 245, 0.05)",      // Bleu violacé
+      "orbit": "rgba(225, 140, 50, 0.05)",      // Orange Magic Candy
+      "rendez-vous": "rgba(235, 96, 210, 0.05)", // Magenta Big Bang
+      "souvenirs": "rgba(140, 172, 245, 0.05)",  // Bleu Azur Pilot
+      "interface": "rgba(50, 225, 180, 0.05)",   // Vert émeraude Happy New Year
+      "neoforma": "rgba(150, 80, 240, 0.05)",    // Violet La Recette
+      "epure": "rgba(228, 210, 170, 0.05)"       // Doré Generative
+    };
+    const glowColor = colors[project.id] || "rgba(120, 156, 245, 0.05)";
+    document.documentElement.style.setProperty("--mouse-glow-color", glowColor);
+  }
 });
 
 const portfolio = PortfolioGrid({
@@ -112,7 +126,7 @@ window.addEventListener("hashchange", setRoute);
 window.addEventListener("popstate", setRoute);
 setRoute();
 
-// Halo Lumineux d'Arrière-plan Interactif
+// Halo Lumineux d'Arrière-plan Interactif & Suivi Souris Centralisé
 const glowBg = document.createElement("div");
 glowBg.className = "mouse-glow";
 document.body.prepend(glowBg);
@@ -120,7 +134,26 @@ document.body.prepend(glowBg);
 window.addEventListener("pointermove", (event) => {
   if (window.matchMedia("(pointer: coarse)").matches) return;
   document.body.classList.add("has-glow");
+  
+  // Coordonnées absolues pour le halo lumineux d'arrière-plan
   glowBg.style.setProperty("--mouse-glow-x", `${event.clientX}px`);
   glowBg.style.setProperty("--mouse-glow-y", `${event.clientY}px`);
+  
+  // Coordonnées normalisées pour l'inclinaison des cartes projet
+  const x = (event.clientX / window.innerWidth - 0.5) * 2;
+  const y = (event.clientY / window.innerHeight - 0.5) * 2;
+  document.documentElement.style.setProperty("--mouse-x", x.toFixed(3));
+  document.documentElement.style.setProperty("--mouse-y", y.toFixed(3));
 }, { passive: true });
+
+// Atténuation intelligente de la barre de défilement lors de l'inactivité
+let scrollTimeout;
+window.addEventListener("scroll", () => {
+  document.documentElement.classList.add("is-scrolling");
+  window.clearTimeout(scrollTimeout);
+  scrollTimeout = window.setTimeout(() => {
+    document.documentElement.classList.remove("is-scrolling");
+  }, 1000);
+}, { passive: true });
+
 

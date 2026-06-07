@@ -12,14 +12,19 @@ export function AboutOverlay() {
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
       </button>
       <div class="about-overlay__media" aria-hidden="true">
-        <img src="./assets/logo/logo-liquid.png?v=20260607-premium-v14" alt="" loading="lazy" decoding="async" />
+        <img src="./assets/logo/logo-liquid.png?v=20260607-premium-v15" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="about-overlay__content">
         <p class="about-overlay__eyebrow">À propos</p>
         <h2 id="about-title"><span>Martin</span> <em>Motion</em></h2>
-        <p class="about-overlay__presentation">
-          Concevoir des expériences uniques, guidées par un fil rouge narratif fort, pour façonner des univers visuels porteurs de sens et d’émotion. Directeur Artistique et Motion Designer indépendant, je développe une approche hybride, entre savoir-faire traditionnels, design de mouvement, direction visuelle et intelligence artificielle, pour donner vie à des projets et des films singuliers, à forte identité.
-        </p>
+        <div class="about-overlay__presentation">
+          <p>
+            Concevoir des expériences uniques, guidées par un fil rouge narratif fort, pour façonner des univers visuels porteurs de sens et d’émotion.
+          </p>
+          <p>
+            Directeur Artistique et Motion Designer indépendant, je développe une approche hybride, entre savoir-faire traditionnels, design de mouvement, direction visuelle et intelligence artificielle, pour donner vie à des projets et des films singuliers, à forte identité.
+          </p>
+        </div>
         <div class="about-overlay__grid">
           <div class="about-overlay__section">
             <h3>Expertise</h3>
@@ -32,6 +37,9 @@ export function AboutOverlay() {
             <div class="about-overlay__contact">
               <a href="mailto:martinbarbe09@gmail.com" class="about-contact-btn" aria-label="Me contacter par email">
                 <span>Contact</span>
+              </a>
+              <a href="https://www.instagram.com/martin.motion_/" target="_blank" rel="noopener noreferrer" class="about-contact-btn" aria-label="Me suivre sur Instagram">
+                <span>Instagram</span>
               </a>
             </div>
           </div>
@@ -119,10 +127,9 @@ export function AboutOverlay() {
 
   closeButton.addEventListener("click", close);
 
-  const contactBtn = overlay.querySelector(".about-contact-btn");
-  if (contactBtn) {
-    makeMagnetic(contactBtn, 0.2);
-  }
+  overlay.querySelectorAll(".about-contact-btn").forEach((btn) => {
+    makeMagnetic(btn, 0.2);
+  });
 
   overlay.addEventListener("click", (event) => {
     if (event.target === overlay) close();
@@ -134,6 +141,29 @@ export function AboutOverlay() {
   });
 
   panel.addEventListener("keydown", handleFocusTrap);
+
+  overlay.addEventListener("pointermove", (event) => {
+    if (overlay.getAttribute("aria-hidden") === "true") return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    const rect = overlay.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+    const mediaImg = overlay.querySelector(".about-overlay__media img");
+    if (mediaImg) {
+      mediaImg.style.transform = `translate(${x * 18}px, ${y * 18}px)`;
+      mediaImg.style.transition = "transform 350ms cubic-bezier(0.25, 1, 0.5, 1)";
+    }
+  }, { passive: true });
+
+  overlay.addEventListener("pointerleave", () => {
+    const mediaImg = overlay.querySelector(".about-overlay__media img");
+    if (mediaImg) {
+      mediaImg.style.transform = "";
+      mediaImg.style.transition = "transform 600ms cubic-bezier(0.25, 1, 0.5, 1)";
+    }
+  });
 
   return {
     element: overlay,

@@ -298,9 +298,13 @@ export function VideoOverlay({ projects, onProjectChange }) {
     }
   });
 
+  let resizeTimeout;
   window.addEventListener("resize", () => {
     if (overlay.getAttribute("aria-hidden") === "true" || !currentVideo) return;
-    updatePlayerFrame(currentVideo);
+    window.clearTimeout(resizeTimeout);
+    resizeTimeout = window.setTimeout(() => {
+      updatePlayerFrame(currentVideo);
+    }, 120);
   });
 
   return {

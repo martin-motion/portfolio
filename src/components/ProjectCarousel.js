@@ -23,7 +23,7 @@ const getDepth = (offset) => {
   return depth[Math.min(distance, depth.length - 1)];
 };
 
-export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
+export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onActiveChange }) {
   let activeIndex = initialIndex;
   let dragStartX = 0;
   let dragDeltaX = 0;
@@ -54,14 +54,6 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
   makeMagnetic(prevButton, 0.2);
   makeMagnetic(nextButton, 0.2);
 
-  window.addEventListener("pointermove", (event) => {
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-    const x = (event.clientX / window.innerWidth - 0.5) * 2;
-    const y = (event.clientY / window.innerHeight - 0.5) * 2;
-    document.documentElement.style.setProperty("--mouse-x", x.toFixed(3));
-    document.documentElement.style.setProperty("--mouse-y", y.toFixed(3));
-  }, { passive: true });
-
   const cards = projects.map((project, index) =>
     ProjectCard({
       project,
@@ -86,6 +78,9 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
   const setActiveIndex = (index) => {
     activeIndex = (index + projects.length) % projects.length;
     render();
+    if (onActiveChange) {
+      onActiveChange(projects[activeIndex], activeIndex);
+    }
   };
 
   const move = (direction) => setActiveIndex(activeIndex + direction);
@@ -239,7 +234,9 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject }) {
   stage.addEventListener("pointermove", (event) => {
     if (!isDragging) return;
     dragDeltaX = event.clientX - dragStartX;
-    stage.style.setProperty("--drag", `${dragDeltaX}px`);
+    // Amorti de friction physique non-linéaire (Damped Drag)
+    const dampedDrag = Math.sign(dragDeltaX) * Math.pow(Math.abs(dragDeltaX), 0.86) * 1.62;
+    stage.style.setProperty("--drag", `${dampedDrag}px`);
   });
 
   const endDrag = (event) => {

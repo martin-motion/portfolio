@@ -1,4 +1,4 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260607-premium-v22";
+import { ProjectCard } from "./ProjectCard.js?v=20260607-premium-v23";
 import { makeMagnetic } from "../utils.js";
 
 const getCircularOffset = (index, activeIndex, total) => {
@@ -13,11 +13,11 @@ const getCircularOffset = (index, activeIndex, total) => {
 const getDepth = (offset) => {
   const distance = Math.abs(offset);
   const depth = [
-    { scale: 1.08, veil: 0, brightness: 1.02, saturation: 1, opacity: 1, rotate: 0, y: 0, z: 92, xOffset: 0 },
-    { scale: 0.8, veil: 0.08, brightness: 0.94, saturation: 0.96, opacity: 1, rotate: 15, y: 10, z: -40, xOffset: 1 },
-    { scale: 0.6, veil: 0.18, brightness: 0.85, saturation: 0.9, opacity: 1, rotate: 30, y: 15, z: -180, xOffset: 1.55 },
-    { scale: 0.45, veil: 0.32, brightness: 0.74, saturation: 0.84, opacity: 1, rotate: 45, y: 20, z: -300, xOffset: 1.9 },
-    { scale: 0.3, veil: 0.48, brightness: 0.62, saturation: 0.7, opacity: 1, rotate: 60, y: 25, z: -420, xOffset: 2.15 },
+    { scale: 1.05, veil: 0, brightness: 1.02, saturation: 1, opacity: 1, rotate: 0, y: 0, z: 92, xOffset: 0 },
+    { scale: 0.88, veil: 0.08, brightness: 0.94, saturation: 0.96, opacity: 1, rotate: 15, y: 10, z: -40, xOffset: 1.08 },
+    { scale: 0.74, veil: 0.18, brightness: 0.85, saturation: 0.9, opacity: 1, rotate: 30, y: 15, z: -180, xOffset: 1.76 },
+    { scale: 0.63, veil: 0.32, brightness: 0.74, saturation: 0.84, opacity: 1, rotate: 45, y: 20, z: -300, xOffset: 2.28 },
+    { scale: 0.54, veil: 0.48, brightness: 0.62, saturation: 0.7, opacity: 1, rotate: 60, y: 25, z: -420, xOffset: 2.72 },
   ];
 
   return depth[Math.min(distance, depth.length - 1)];
@@ -155,7 +155,7 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
       card.style.setProperty("--z", 100 - distance);
       card.style.setProperty("--card-border-opacity", borderOpacity);
       card.style.setProperty("--card-opacity", depth.opacity);
-      const reflectOpacity = [0.52, 0.36, 0.2, 0.08][Math.min(distance, 3)];
+      const reflectOpacity = [0.42, 0.28, 0.16, 0.06][Math.min(distance, 3)];
       card.style.setProperty("--card-reflect-opacity", reflectOpacity);
       card.style.transformOrigin =
 

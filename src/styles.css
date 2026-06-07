@@ -97,10 +97,9 @@ body::before {
     radial-gradient(ellipse at 52% 72%, rgba(34, 42, 112, 0.08), transparent 48%),
     linear-gradient(118deg, rgba(70, 52, 118, 0.08) 0%, transparent 28%),
     linear-gradient(238deg, transparent 56%, rgba(48, 74, 134, 0.07) 84%, transparent 100%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 38%, rgba(0, 0, 0, 0.3) 100%),
-    url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
-  background-blend-mode: screen, screen, screen, screen, screen, overlay, overlay;
-  opacity: 0.9;
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 38%, rgba(0, 0, 0, 0.3) 100%);
+  background-blend-mode: screen, screen, screen, screen, screen, overlay;
+  opacity: 1;
   pointer-events: none;
 }
 

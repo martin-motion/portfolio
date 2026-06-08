@@ -45,6 +45,14 @@ export function VideoOverlay({ projects, onProjectChange }) {
     clearTimeout(loadingTimer);
     clearTimeout(controlsTimer);
     setLoading(false);
+
+    // Pause and unload any active videos to prevent memory leaks
+    panel.querySelectorAll("video").forEach((video) => {
+      video.pause();
+      video.src = "";
+      video.load();
+    });
+
     player.innerHTML = "";
     currentVideo = null;
     player.classList.remove("is-controls-hidden");
@@ -84,10 +92,22 @@ export function VideoOverlay({ projects, onProjectChange }) {
     }
   };
 
-  const updatePlayerFrame = (video) => {
-    if (!video.videoWidth || !video.videoHeight) return;
+  const updatePlayerFrame = (video, customAspect = null) => {
+    let aspect;
+    let videoWidth;
+    let videoHeight;
 
-    const aspect = video.videoWidth / video.videoHeight;
+    if (customAspect) {
+      aspect = customAspect;
+      videoWidth = 100 * aspect;
+      videoHeight = 100;
+    } else {
+      if (!video || !video.videoWidth || !video.videoHeight) return;
+      aspect = video.videoWidth / video.videoHeight;
+      videoWidth = video.videoWidth;
+      videoHeight = video.videoHeight;
+    }
+
     const overlayStyle = window.getComputedStyle(overlay);
     const panelStyle = window.getComputedStyle(panel);
     const paddingX =
@@ -102,10 +122,11 @@ export function VideoOverlay({ projects, onProjectChange }) {
       280,
       window.innerHeight - paddingY - topbarHeight - panelGap - mobileNavReserve
     );
-    const idealWidth = Math.min(1500, availableWidth, availableHeight * aspect);
+    const maxIdealWidth = customAspect ? 2400 : 1500;
+    const idealWidth = Math.min(maxIdealWidth, availableWidth, availableHeight * aspect);
 
     player.style.setProperty("--video-aspect", aspect.toFixed(5));
-    player.style.setProperty("--video-ratio", `${video.videoWidth} / ${video.videoHeight}`);
+    player.style.setProperty("--video-ratio", `${videoWidth} / ${videoHeight}`);
     player.style.setProperty("--video-width", `${Math.round(idealWidth)}px`);
     panel.style.setProperty("--overlay-width", `${Math.round(idealWidth)}px`);
     player.classList.toggle("is-portrait", aspect < 1);
@@ -124,6 +145,62 @@ export function VideoOverlay({ projects, onProjectChange }) {
     unloadVideo();
     loadingTimer = window.setTimeout(() => setLoading(true), 300);
 
+    // Multi-video rendering support (e.g. Allianz video series)
+    if (project.videoUrls && project.videoUrls.length > 1) {
+      const container = document.createElement("div");
+      container.className = "video-overlay__multi-container";
+
+      const videos = project.videoUrls.map((url, i) => {
+        const video = document.createElement("video");
+        video.src = url;
+        video.poster = project.thumbnail;
+        video.controls = true;
+        video.autoplay = i === 0;
+        video.playsInline = true;
+        video.preload = "metadata";
+        video.volume = 1;
+
+        video.addEventListener("play", () => {
+          videos.forEach((v) => {
+            if (v !== video) v.pause();
+          });
+        });
+
+        container.append(video);
+        return video;
+      });
+
+      player.append(container);
+
+      const firstVideo = videos[0];
+      firstVideo.addEventListener("loadedmetadata", () => {
+        const singleAspect = firstVideo.videoWidth / firstVideo.videoHeight;
+        updatePlayerFrame(firstVideo, singleAspect * videos.length);
+      });
+
+      firstVideo.addEventListener("loadeddata", () => {
+        clearTimeout(loadingTimer);
+        setLoading(false);
+      });
+
+      firstVideo.addEventListener("error", () => {
+        showUnavailable();
+      });
+
+      // Sizing fallback if metadata load is delayed
+      setTimeout(() => {
+        if (!firstVideo.videoWidth) {
+          updatePlayerFrame(null, 0.8 * videos.length);
+          clearTimeout(loadingTimer);
+          setLoading(false);
+        }
+      }, 1500);
+
+      onProjectChange(activeIndex);
+      return;
+    }
+
+    // Classic single video rendering behavior
     if (!project.videoUrl) {
       showUnavailable();
       onProjectChange(activeIndex);
@@ -193,7 +270,6 @@ export function VideoOverlay({ projects, onProjectChange }) {
     return Array.from(
       panel.querySelectorAll('button, video, [href], [tabindex]:not([tabindex="-1"])')
     ).filter(el => {
-      // Filtrer les flèches si elles sont masquées par CSS en responsive/mobile
       const style = window.getComputedStyle(el);
       return style.display !== 'none' && style.visibility !== 'hidden';
     });
@@ -229,7 +305,7 @@ export function VideoOverlay({ projects, onProjectChange }) {
     document.documentElement.classList.add("has-overlay");
     document.body.classList.add("has-overlay");
     renderProject(project);
-    
+
     window.setTimeout(() => {
       const focusables = getFocusableElements();
       if (focusables.length > 0) {
@@ -288,11 +364,16 @@ export function VideoOverlay({ projects, onProjectChange }) {
     }
     if (event.key === " " || event.key === "Spacebar") {
       event.preventDefault();
-      if (currentVideo) {
-        if (currentVideo.paused) {
-          currentVideo.play().catch(() => {});
+      // Intelligent toggle for both single and multi-video player configurations
+      const activeVideo = panel.querySelector("video:hover") || panel.querySelector("video");
+      if (activeVideo) {
+        if (activeVideo.paused) {
+          panel.querySelectorAll("video").forEach((v) => {
+            if (v !== activeVideo) v.pause();
+          });
+          activeVideo.play().catch(() => {});
         } else {
-          currentVideo.pause();
+          activeVideo.pause();
         }
       }
     }
@@ -300,10 +381,21 @@ export function VideoOverlay({ projects, onProjectChange }) {
 
   let resizeTimeout;
   window.addEventListener("resize", () => {
-    if (overlay.getAttribute("aria-hidden") === "true" || !currentVideo) return;
+    if (overlay.getAttribute("aria-hidden") === "true") return;
     window.clearTimeout(resizeTimeout);
     resizeTimeout = window.setTimeout(() => {
-      updatePlayerFrame(currentVideo);
+      const project = projects[activeIndex];
+      if (project.videoUrls && project.videoUrls.length > 1) {
+        const firstVideo = player.querySelector("video");
+        if (firstVideo && firstVideo.videoWidth) {
+          const singleAspect = firstVideo.videoWidth / firstVideo.videoHeight;
+          updatePlayerFrame(firstVideo, singleAspect * project.videoUrls.length);
+        } else {
+          updatePlayerFrame(null, 0.8 * project.videoUrls.length);
+        }
+      } else if (currentVideo) {
+        updatePlayerFrame(currentVideo);
+      }
     }, 120);
   });
 

@@ -19,6 +19,11 @@ const VIDEO_ROUTES = {
   "/videos/def-hyper-espace.mp4": "DEF HYPER ESPACE.mp4",
   "/videos/mon-oncle.mp4": "Mon Oncle.mp4",
   "/videos/nikita.mp4": "Nikita.mp4",
+  "/videos/allianz-video-01.mp4": "Allianz-VIDEO 01_V03.mp4",
+  "/videos/allianz-video-02.mp4": "Allianz-VIDEO 02_v03.mp4",
+  "/videos/allianz-video-03.mp4": "Allianz-VIDEO 03_V03.mp4",
+  "/videos/compass-groupe.mp4": "Compass Groupe.mp4",
+  "/videos/lyspro.mp4": "LysPro.mp4",
 };
 
 const corsHeaders = {

@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260608-media-v32";
-import { Header } from "./components/Header.js?v=20260608-media-v32";
-import { Hero } from "./components/Hero.js?v=20260608-media-v32";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260608-media-v32";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260608-media-v32";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260608-media-v32";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260608-media-v32";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260608-media-v32";
+import { projects } from "./projects.js?v=20260608-media-v33";
+import { Header } from "./components/Header.js?v=20260608-media-v33";
+import { Hero } from "./components/Hero.js?v=20260608-media-v33";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260608-media-v33";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260608-media-v33";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260608-media-v33";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260608-media-v33";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260608-media-v33";
 
 
 
@@ -115,8 +115,10 @@ const setRoute = () => {
     
     if (route === "selection") {
       document.body.classList.add("is-selection-route");
+      document.documentElement.classList.add("is-selection-route");
     } else {
       document.body.classList.remove("is-selection-route");
+      document.documentElement.classList.remove("is-selection-route");
     }
   };
 

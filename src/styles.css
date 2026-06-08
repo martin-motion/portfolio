@@ -140,10 +140,11 @@ body.has-overlay {
   overflow: hidden;
 }
 
+html.is-selection-route,
 body.is-selection-route {
-  height: 100vh;
-  height: 100dvh;
-  overflow: hidden;
+  height: 100vh !important;
+  height: 100dvh !important;
+  overflow: hidden !important;
 }
 
 button,
@@ -845,7 +846,7 @@ button {
 .selection-actions {
   display: flex;
   justify-content: center;
-  margin-top: clamp(20px, 5vh, 45px);
+  margin-top: clamp(55px, 9vh, 100px);
 }
 
 .selection-actions__link {
@@ -1034,7 +1035,7 @@ button {
 .portfolio-card__media {
   position: relative;
   display: block;
-  aspect-ratio: 1;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid rgba(242, 238, 232, 0.085);
   border-radius: 18px;
@@ -1111,11 +1112,6 @@ button {
   min-height: 1.2em;
 }
 
-.portfolio-card__tag {
-  min-height: 18px;
-  padding: 4px 7px 4px 6px;
-  font-size: clamp(0.52rem, 0.58vw, 0.62rem);
-}
 
 .portfolio-card__title {
   color: rgba(242, 238, 232, 0.86);

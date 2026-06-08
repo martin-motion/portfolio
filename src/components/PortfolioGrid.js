@@ -68,7 +68,7 @@ export function PortfolioGrid({ projects, onOpenProject }) {
         <span class="portfolio-card__media">
           ${media}
           <span class="portfolio-card__media-tags" aria-hidden="true">
-            ${renderProjectTags(project.tags ?? [project.category], "portfolio-card__tag")}
+            ${renderProjectTags([project.category], "portfolio-card__tag")}
           </span>
         </span>
         <span class="portfolio-card__body">

@@ -15,9 +15,9 @@ const getDepth = (offset) => {
   const depth = [
     { scale: 1.05, veil: 0, brightness: 1.02, saturation: 1, opacity: 1, rotate: 0, y: 0, z: 92, xOffset: 0 },
     { scale: 0.88, veil: 0.08, brightness: 0.94, saturation: 0.96, opacity: 1, rotate: 15, y: 10, z: -40, xOffset: 1.08 },
-    { scale: 0.74, veil: 0.18, brightness: 0.85, saturation: 0.9, opacity: 1, rotate: 30, y: 15, z: -180, xOffset: 1.76 },
-    { scale: 0.63, veil: 0.32, brightness: 0.74, saturation: 0.84, opacity: 1, rotate: 45, y: 20, z: -300, xOffset: 2.28 },
-    { scale: 0.54, veil: 0.48, brightness: 0.62, saturation: 0.7, opacity: 1, rotate: 60, y: 25, z: -420, xOffset: 2.72 },
+    { scale: 0.74, veil: 0.18, brightness: 0.85, saturation: 0.9, opacity: 1, rotate: 30, y: 15, z: -180, xOffset: 1.74 },
+    { scale: 0.63, veil: 0.32, brightness: 0.74, saturation: 0.84, opacity: 1, rotate: 45, y: 20, z: -300, xOffset: 2.16 },
+    { scale: 0.54, veil: 0.48, brightness: 0.62, saturation: 0.7, opacity: 1, rotate: 60, y: 25, z: -420, xOffset: 2.44 },
   ];
 
   return depth[Math.min(distance, depth.length - 1)];

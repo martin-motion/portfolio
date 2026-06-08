@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260608-media-v28";
-import { Header } from "./components/Header.js?v=20260608-media-v28";
-import { Hero } from "./components/Hero.js?v=20260608-media-v28";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260608-media-v28";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260608-media-v28";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260608-media-v28";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260608-media-v28";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260608-media-v28";
+import { projects } from "./projects.js?v=20260608-media-v29";
+import { Header } from "./components/Header.js?v=20260608-media-v29";
+import { Hero } from "./components/Hero.js?v=20260608-media-v29";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260608-media-v29";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260608-media-v29";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260608-media-v29";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260608-media-v29";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260608-media-v29";
 
 
 
@@ -14,12 +14,20 @@ import { makeMagnetic } from "./utils.js";
 
 const app = document.querySelector("#app");
 const aboutOverlay = AboutOverlay();
-const featuredProjects = projects.filter((project) => project.featured);
-const selectionProjects = [
-  ...featuredProjects.filter((project) => project.id === "interface"),
-  ...featuredProjects.filter((project) => project.id === "souvenirs"),
-  ...featuredProjects.filter((project) => project.id !== "interface"),
-].filter((project, index, items) => items.findIndex((item) => item.id === project.id) === index);
+const selectionIds = [
+  "nikita",
+  "orbit",
+  "rendez-vous",
+  "epure",
+  "interface",
+  "neoforma",
+  "mon-oncle",
+  "souvenirs",
+  "lumen"
+];
+const selectionProjects = selectionIds
+  .map(id => projects.find(p => p.id === id))
+  .filter(Boolean);
 const selectionView = document.createElement("div");
 selectionView.className = "selection-view route-view";
 
@@ -34,7 +42,7 @@ const overlay = VideoOverlay({
 
 const carousel = ProjectCarousel({
   projects: selectionProjects,
-  initialIndex: 0,
+  initialIndex: 4,
   onOpenProject: (project, _index, trigger) => {
     const projectIndex = projects.findIndex((item) => item.id === project.id);
     overlay.open(project, projectIndex, trigger);

@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260607-premium-v26";
-import { Header } from "./components/Header.js?v=20260607-premium-v26";
-import { Hero } from "./components/Hero.js?v=20260607-premium-v26";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260607-premium-v26";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260607-premium-v26";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260607-premium-v26";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260607-premium-v26";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260607-premium-v26";
+import { projects } from "./projects.js?v=20260608-media-v27";
+import { Header } from "./components/Header.js?v=20260608-media-v27";
+import { Hero } from "./components/Hero.js?v=20260608-media-v27";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260608-media-v27";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260608-media-v27";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260608-media-v27";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260608-media-v27";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260608-media-v27";
 
 
 
@@ -42,6 +42,10 @@ const carousel = ProjectCarousel({
   onActiveChange: (project) => {
     // Teinte dynamique du halo de fond par projet
     const colors = {
+      "apprend-moi-a-voler": "rgba(240, 80, 80, 0.05)", // Rouge corail
+      "def-hyper-espace": "rgba(80, 220, 240, 0.05)",   // Cyan Espace
+      "mon-oncle": "rgba(220, 240, 80, 0.05)",          // Lime acide
+      "nikita": "rgba(200, 80, 240, 0.05)",             // Violet Nikita
       "lumen": "rgba(92, 120, 245, 0.05)",      // Bleu violacé
       "orbit": "rgba(225, 140, 50, 0.05)",      // Orange Magic Candy
       "rendez-vous": "rgba(235, 96, 210, 0.05)", // Magenta Big Bang

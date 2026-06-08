@@ -15,6 +15,10 @@ const VIDEO_ROUTES = {
   "/videos/magic-candy-v01.mp4": "MAGIC CANDY_V01.mp4",
   "/videos/new-year-2026.mp4": "NEW YEAR 2026.mp4",
   "/videos/reel-generatif-martin.mp4": "REEL_GENERATIF_MARTIN.mp4",
+  "/videos/apprend-moi-a-voler.mp4": "Apprend moi a voler.mp4",
+  "/videos/def-hyper-espace.mp4": "DEF HYPER ESPACE.mp4",
+  "/videos/mon-oncle.mp4": "Mon Oncle.mp4",
+  "/videos/nikita.mp4": "Nikita.mp4",
 };
 
 const corsHeaders = {

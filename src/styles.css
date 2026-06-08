@@ -140,6 +140,12 @@ body.has-overlay {
   overflow: hidden;
 }
 
+body.is-selection-route {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;
@@ -839,7 +845,7 @@ button {
 .selection-actions {
   display: flex;
   justify-content: center;
-  margin-top: clamp(75px, 14vh, 135px);
+  margin-top: clamp(20px, 5vh, 45px);
 }
 
 .selection-actions__link {
@@ -1006,8 +1012,8 @@ button {
 
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(14px, 1.8vw, 24px);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(12px, 1.4vw, 18px);
 }
 
 .portfolio-card {
@@ -1821,7 +1827,8 @@ button {
   }
 
   .portfolio-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
   }
 
   .carousel {
@@ -1937,8 +1944,8 @@ button {
   }
 
   .portfolio-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px 12px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px 8px;
   }
 
   .portfolio-card__media {
@@ -1954,12 +1961,13 @@ button {
   }
 
   .portfolio-card__tag {
-    font-size: 0.52rem;
-    padding: 4px 6px;
+    font-size: 0.46rem;
+    padding: 3px 5px;
   }
 
   .portfolio-card__title {
-    font-size: 0.88rem;
+    font-size: 0.78rem;
+    min-height: 2.2em;
   }
 
   .hero {

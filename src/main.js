@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260608-media-v31";
-import { Header } from "./components/Header.js?v=20260608-media-v31";
-import { Hero } from "./components/Hero.js?v=20260608-media-v31";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260608-media-v31";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260608-media-v31";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260608-media-v31";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260608-media-v31";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260608-media-v31";
+import { projects } from "./projects.js?v=20260608-media-v32";
+import { Header } from "./components/Header.js?v=20260608-media-v32";
+import { Hero } from "./components/Hero.js?v=20260608-media-v32";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260608-media-v32";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260608-media-v32";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260608-media-v32";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260608-media-v32";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260608-media-v32";
 
 
 
@@ -112,6 +112,12 @@ const setRoute = () => {
     selectionView.hidden = route !== "selection";
     portfolio.element.hidden = route !== "portfolio";
     header.setActiveRoute(route);
+    
+    if (route === "selection") {
+      document.body.classList.add("is-selection-route");
+    } else {
+      document.body.classList.remove("is-selection-route");
+    }
   };
 
   if (document.startViewTransition) {

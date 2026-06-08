@@ -3,6 +3,7 @@ import { renderProjectTags } from "./ProjectCard.js?v=20260604-final-cta";
 
 const FILTER_ORDER = [
   "Tous",
+  "Clip",
   "Mini film RS",
   "Motion Design",
   "IA Générative",

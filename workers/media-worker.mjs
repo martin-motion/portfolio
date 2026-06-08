@@ -26,6 +26,7 @@ const VIDEO_ROUTES = {
   "/videos/lyspro.mp4": "LysPro.mp4",
   "/videos/france-tv-journee-du-patrimoine.mp4": "France_TV_Journee_du_patrimoine.mp4",
   "/videos/joynit-v02-m2.mp4": "JOYNIT_V02_M2.mp4",
+  "/videos/joynit.mp4": "JOYNIT_V02_M2.mp4",
   "/videos/loreal-testing.mp4": "LOREAL TESTING.mp4",
 };
 

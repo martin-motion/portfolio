@@ -1351,6 +1351,12 @@ button {
 }
 
 @media (max-width: 768px) {
+  .video-overlay__player {
+    aspect-ratio: auto !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
   .video-overlay__multi-container {
     flex-direction: column;
     overflow-y: auto;

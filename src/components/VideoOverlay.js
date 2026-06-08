@@ -173,15 +173,29 @@ export function VideoOverlay({ projects, onProjectChange }) {
       player.append(container);
 
       const firstVideo = videos[0];
-      firstVideo.addEventListener("loadedmetadata", () => {
+
+      const handleMetadata = () => {
+        if (!firstVideo.videoHeight) return;
         const singleAspect = firstVideo.videoWidth / firstVideo.videoHeight;
         updatePlayerFrame(firstVideo, singleAspect * videos.length);
-      });
+      };
 
-      firstVideo.addEventListener("loadeddata", () => {
+      const handleLoadedData = () => {
         clearTimeout(loadingTimer);
         setLoading(false);
-      });
+      };
+
+      if (firstVideo.readyState >= 1 && firstVideo.videoWidth) {
+        handleMetadata();
+      } else {
+        firstVideo.addEventListener("loadedmetadata", handleMetadata);
+      }
+
+      if (firstVideo.readyState >= 2) {
+        handleLoadedData();
+      } else {
+        firstVideo.addEventListener("loadeddata", handleLoadedData);
+      }
 
       firstVideo.addEventListener("error", () => {
         showUnavailable();
@@ -217,15 +231,27 @@ export function VideoOverlay({ projects, onProjectChange }) {
     video.volume = 1;
     currentVideo = video;
 
-    video.addEventListener("loadedmetadata", () => {
+    const handleSingleMetadata = () => {
       updatePlayerFrame(video);
-    });
+    };
 
-    video.addEventListener("loadeddata", () => {
+    const handleSingleLoadedData = () => {
       clearTimeout(loadingTimer);
       setLoading(false);
       revealNativeControls(video, 700);
-    });
+    };
+
+    if (video.readyState >= 1 && video.videoWidth) {
+      handleSingleMetadata();
+    } else {
+      video.addEventListener("loadedmetadata", handleSingleMetadata);
+    }
+
+    if (video.readyState >= 2) {
+      handleSingleLoadedData();
+    } else {
+      video.addEventListener("loadeddata", handleSingleLoadedData);
+    }
 
     video.addEventListener("playing", () => {
       clearTimeout(loadingTimer);

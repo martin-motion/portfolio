@@ -8,6 +8,7 @@ export function VideoOverlay({ projects, onProjectChange }) {
   const overlay = document.createElement("div");
   overlay.className = "video-overlay";
   overlay.setAttribute("aria-hidden", "true");
+  overlay.inert = true;
   overlay.innerHTML = `
     <div class="video-overlay__panel" role="dialog" aria-modal="true" aria-label="Lecteur video" tabindex="-1">
       <div class="video-overlay__topbar">
@@ -110,17 +111,31 @@ export function VideoOverlay({ projects, onProjectChange }) {
 
     const overlayStyle = window.getComputedStyle(overlay);
     const panelStyle = window.getComputedStyle(panel);
+    const isCompactLandscape = window.matchMedia(
+      "(orientation: landscape) and (max-height: 560px)"
+    ).matches;
+    const landscapeMetaReserve = isCompactLandscape
+      ? Math.min(250, Math.max(180, window.innerWidth * 0.27)) + 20
+      : 0;
     const paddingX =
       parseFloat(overlayStyle.paddingLeft) + parseFloat(overlayStyle.paddingRight);
     const paddingY =
       parseFloat(overlayStyle.paddingTop) + parseFloat(overlayStyle.paddingBottom);
     const panelGap = parseFloat(panelStyle.gap) || 0;
     const topbarHeight = overlay.querySelector(".video-overlay__topbar").offsetHeight;
-    const mobileNavReserve = window.matchMedia("(max-width: 620px)").matches ? 74 : 0;
-    const availableWidth = Math.max(280, window.innerWidth - paddingX);
+    const mobileNavReserve =
+      window.matchMedia("(max-width: 620px)").matches && !isCompactLandscape ? 74 : 0;
+    const availableWidth = Math.max(
+      isCompactLandscape ? 160 : 280,
+      window.innerWidth - paddingX - landscapeMetaReserve
+    );
     const availableHeight = Math.max(
-      280,
-      window.innerHeight - paddingY - topbarHeight - panelGap - mobileNavReserve
+      isCompactLandscape ? 160 : 280,
+      window.innerHeight -
+        paddingY -
+        (isCompactLandscape ? 0 : topbarHeight) -
+        panelGap -
+        mobileNavReserve
     );
     const maxIdealWidth = customAspect ? 2400 : 1500;
     const idealWidth = Math.min(maxIdealWidth, availableWidth, availableHeight * aspect);
@@ -128,7 +143,10 @@ export function VideoOverlay({ projects, onProjectChange }) {
     player.style.setProperty("--video-aspect", aspect.toFixed(5));
     player.style.setProperty("--video-ratio", `${videoWidth} / ${videoHeight}`);
     player.style.setProperty("--video-width", `${Math.round(idealWidth)}px`);
-    panel.style.setProperty("--overlay-width", `${Math.round(idealWidth)}px`);
+    panel.style.setProperty(
+      "--overlay-width",
+      `${Math.round(idealWidth + landscapeMetaReserve)}px`
+    );
     player.classList.toggle("is-portrait", aspect < 1);
     player.classList.toggle("is-landscape", aspect >= 1);
   };
@@ -327,6 +345,7 @@ export function VideoOverlay({ projects, onProjectChange }) {
   const open = (project, index, trigger) => {
     activeIndex = index;
     restoreFocusTo = trigger ?? document.activeElement;
+    overlay.inert = false;
     overlay.setAttribute("aria-hidden", "false");
     document.documentElement.classList.add("has-overlay");
     document.body.classList.add("has-overlay");
@@ -345,6 +364,7 @@ export function VideoOverlay({ projects, onProjectChange }) {
   const close = () => {
     unloadVideo();
     overlay.setAttribute("aria-hidden", "true");
+    overlay.inert = true;
     document.documentElement.classList.remove("has-overlay");
     document.body.classList.remove("has-overlay");
 

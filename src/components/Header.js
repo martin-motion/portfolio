@@ -37,6 +37,14 @@ export function Header({ onAboutOpen } = {}) {
     pill.style.transform = `translateX(${rect.left - navRect.left}px)`;
   };
 
+  let pillFrame = 0;
+  const syncPill = () => {
+    window.cancelAnimationFrame(pillFrame);
+    pillFrame = window.requestAnimationFrame(() => {
+      updatePill(nav.querySelector(".is-active"));
+    });
+  };
+
   links.forEach((link) => {
     link.addEventListener("mouseenter", () => updatePill(link));
   });
@@ -70,6 +78,14 @@ export function Header({ onAboutOpen } = {}) {
   const dropdown = header.querySelector(".site-nav__dropdown");
 
   if (moreTrigger && dropdown) {
+    const closeMoreMenu = ({ restoreFocus = false } = {}) => {
+      if (!moreContainer.classList.contains("is-open")) return;
+      moreContainer.classList.remove("is-open");
+      moreTrigger.setAttribute("aria-expanded", "false");
+      dropdown.setAttribute("aria-hidden", "true");
+      if (restoreFocus) moreTrigger.focus({ preventScroll: true });
+    };
+
     moreTrigger.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -80,10 +96,14 @@ export function Header({ onAboutOpen } = {}) {
 
     document.addEventListener("click", (e) => {
       if (moreContainer.classList.contains("is-open") && !moreContainer.contains(e.target)) {
-        moreContainer.classList.remove("is-open");
-        moreTrigger.setAttribute("aria-expanded", "false");
-        dropdown.setAttribute("aria-hidden", "true");
+        closeMoreMenu();
       }
+    });
+
+    moreContainer.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      closeMoreMenu({ restoreFocus: true });
     });
 
     // Rendre le bouton plus magnétique
@@ -122,8 +142,14 @@ export function Header({ onAboutOpen } = {}) {
         link.removeAttribute("aria-current");
       }
     });
-    if (newActive) updatePill(newActive);
+    if (newActive) syncPill();
   };
+
+  window.addEventListener("resize", syncPill, { passive: true });
+  window.addEventListener("orientationchange", syncPill, { passive: true });
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(syncPill).observe(nav);
+  }
 
   return {
     element: header,

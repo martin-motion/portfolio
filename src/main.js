@@ -1,11 +1,11 @@
-import { projects } from "./projects.js?v=20260618-mobile-about";
-import { Header } from "./components/Header.js?v=20260618-mobile-about";
-import { Hero } from "./components/Hero.js?v=20260618-mobile-about";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260618-mobile-about";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260618-mobile-about";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260618-mobile-about";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260618-mobile-about";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260618-mobile-about";
+import { projects } from "./projects.js?v=20260620-responsive-final";
+import { Header } from "./components/Header.js?v=20260620-responsive-final";
+import { Hero } from "./components/Hero.js?v=20260620-responsive-final";
+import { CustomCursor } from "./components/CustomCursor.js?v=20260620-responsive-final";
+import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260620-responsive-final";
+import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260620-responsive-final";
+import { VideoOverlay } from "./components/VideoOverlay.js?v=20260620-responsive-final";
+import { AboutOverlay } from "./components/AboutOverlay.js?v=20260620-responsive-final";
 
 
 
@@ -75,6 +75,8 @@ const portfolio = PortfolioGrid({
   },
 });
 
+let activeRoute = null;
+
 const header = Header({ onAboutOpen: (trigger) => aboutOverlay.open(trigger) });
 const selectionActions = document.createElement("div");
 selectionActions.className = "selection-actions";
@@ -128,6 +130,11 @@ const setRoute = () => {
     updateDOM();
   }
 
+  if (activeRoute !== route) {
+    activeRoute = route;
+    window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: "instant" }));
+  }
+
   if (shouldOpenAbout) {
     aboutOverlay.open();
   }
@@ -179,5 +186,3 @@ window.addEventListener("scroll", () => {
     document.documentElement.classList.remove("is-scrolling");
   }, 1000);
 }, { passive: true });
-
-

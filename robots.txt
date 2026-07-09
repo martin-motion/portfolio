@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://martin-motion.vercel.app/sitemap.xml
+Sitemap: https://martinmotion.co/sitemap.xml

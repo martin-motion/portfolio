@@ -48,11 +48,20 @@ export function PortfolioGrid({ projects, onOpenProject }) {
     },
   });
 
+  const count = document.createElement("p");
+  count.className = "portfolio-view__count";
+  count.setAttribute("aria-live", "polite");
+
+  const toolbar = document.createElement("div");
+  toolbar.className = "portfolio-view__toolbar";
+  toolbar.append(filters.element, count);
+
   const grid = document.createElement("div");
   grid.className = "portfolio-grid";
 
   const renderGrid = () => {
     const visibleProjects = projects.filter((project) => projectMatchesFilter(project, activeFilter));
+    count.textContent = `${visibleProjects.length} projet${visibleProjects.length > 1 ? "s" : ""}`;
 
     grid.innerHTML = "";
     visibleProjects.forEach((project, index) => {
@@ -60,6 +69,7 @@ export function PortfolioGrid({ projects, onOpenProject }) {
       card.className = "portfolio-card";
       card.style.setProperty("--card-index", index);
       card.type = "button";
+      card.dataset.projectId = project.id;
       card.setAttribute("aria-label", `${project.title}, ${project.category}`);
       const media = project.thumbnail
         ? `<img src="${project.thumbnail}" alt="" loading="lazy" decoding="async" draggable="false" />`
@@ -73,14 +83,29 @@ export function PortfolioGrid({ projects, onOpenProject }) {
         </span>
         <span class="portfolio-card__body">
           <span class="portfolio-card__title">${project.title}</span>
+          <span class="portfolio-card__year">${project.year}</span>
         </span>
       `;
+      card.addEventListener("pointermove", (event) => {
+        if (window.matchMedia("(pointer: coarse)").matches) return;
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width;
+        const y = (event.clientY - rect.top) / rect.height;
+        card.style.setProperty("--card-pointer-x", `${(x * 100).toFixed(1)}%`);
+        card.style.setProperty("--card-pointer-y", `${(y * 100).toFixed(1)}%`);
+        card.style.setProperty("--card-tilt-x", `${((0.5 - y) * 2.2).toFixed(2)}deg`);
+        card.style.setProperty("--card-tilt-y", `${((x - 0.5) * 2.2).toFixed(2)}deg`);
+      }, { passive: true });
+      card.addEventListener("pointerleave", () => {
+        card.style.removeProperty("--card-tilt-x");
+        card.style.removeProperty("--card-tilt-y");
+      });
       card.addEventListener("click", () => onOpenProject(project, card));
       grid.append(card);
     });
   };
 
-  section.append(header, filters.element, grid);
+  section.append(header, toolbar, grid);
   renderGrid();
 
   return {

@@ -11,6 +11,8 @@ const FILTER_ORDER = [
   "VFX / Compositing",
 ];
 
+const AUTO_ADVANCE_DURATION = 8800;
+
 const getDepth = (offset) => {
   const distance = Math.abs(offset);
   return [
@@ -30,7 +32,11 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
   let lastDragDistance = 0;
   let isDragging = false;
   let isHovering = false;
+  let isFocusWithin = false;
+  let isAutoPaused = false;
   let ambientFrame = 0;
+  let autoAdvanceElapsed = 0;
+  let previousFrameTime = 0;
 
   const section = document.createElement("section");
   section.id = "projects";
@@ -57,15 +63,18 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
     </button>
     <div class="carousel__track" aria-hidden="true"></div>
-    <div class="carousel__status" aria-live="polite">
+    <div class="carousel__status" aria-live="off">
       <span class="carousel__current">01</span><span>/</span><span class="carousel__total">${String(projects.length).padStart(2, "0")}</span>
     </div>
+    <p class="carousel__hint" aria-hidden="true">Glisser pour explorer</p>
+    <button class="carousel__autoplay" type="button" aria-pressed="false" aria-label="Mettre l’animation de la galerie en pause">Pause</button>
   `;
 
   const prevButton = stage.querySelector(".carousel__arrow--prev");
   const nextButton = stage.querySelector(".carousel__arrow--next");
   const currentLabel = stage.querySelector(".carousel__current");
   const totalLabel = stage.querySelector(".carousel__total");
+  const autoplayButton = stage.querySelector(".carousel__autoplay");
   makeMagnetic(prevButton, 0.16);
   makeMagnetic(nextButton, 0.16);
 
@@ -85,6 +94,8 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
 
   function noteInteraction() {
     stage.style.setProperty("--ambient-drift", "0px");
+    autoAdvanceElapsed = 0;
+    stage.style.setProperty("--orbit-progress", "0%");
   }
 
   function getVisiblePosition(index) {
@@ -120,6 +131,7 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
       card.style.setProperty("--brightness", depth.brightness);
       card.style.setProperty("--card-opacity", distance > 3 ? 0 : depth.opacity);
       card.style.setProperty("--z", 100 - distance);
+      card.style.setProperty("--float-phase", `${(index % 7) * -0.48}s`);
       card.tabIndex = distance <= 3 ? 0 : -1;
       card.setAttribute("aria-current", offset === 0 ? "true" : "false");
     });
@@ -158,7 +170,23 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
   nextButton.addEventListener("click", () => move(1));
   stage.addEventListener("mouseenter", () => { isHovering = true; });
   stage.addEventListener("mouseleave", () => { isHovering = false; });
-  stage.addEventListener("focusin", noteInteraction);
+  stage.addEventListener("focusin", () => {
+    isFocusWithin = true;
+    noteInteraction();
+  });
+  stage.addEventListener("focusout", (event) => {
+    if (!stage.contains(event.relatedTarget)) isFocusWithin = false;
+  });
+  autoplayButton.addEventListener("click", () => {
+    isAutoPaused = !isAutoPaused;
+    autoplayButton.setAttribute("aria-pressed", String(isAutoPaused));
+    autoplayButton.textContent = isAutoPaused ? "Lecture" : "Pause";
+    autoplayButton.setAttribute(
+      "aria-label",
+      isAutoPaused ? "Relancer l’animation de la galerie" : "Mettre l’animation de la galerie en pause"
+    );
+    noteInteraction();
+  });
   stage.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
       event.preventDefault();
@@ -199,14 +227,37 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
   }, true);
 
   const updateAmbientDrift = (time) => {
-    const canDrift =
+    const frameDelta = previousFrameTime ? Math.min(time - previousFrameTime, 64) : 0;
+    previousFrameTime = time;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const canAnimate =
       !document.hidden &&
       !isDragging &&
       !document.body.classList.contains("has-overlay") &&
-      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document.body.classList.contains("is-selection-route") &&
+      !reducedMotion;
     const amplitude = isHovering ? 2.5 : 7;
-    const drift = canDrift ? Math.sin(time / 5200) * amplitude : 0;
+    const drift = canAnimate ? Math.sin(time / 4300) * amplitude : 0;
     stage.style.setProperty("--ambient-drift", `${drift.toFixed(2)}px`);
+
+    const canAutoAdvance =
+      canAnimate &&
+      !isAutoPaused &&
+      !isHovering &&
+      !isFocusWithin &&
+      visibleIndices.length > 1;
+
+    if (canAutoAdvance) {
+      autoAdvanceElapsed += frameDelta;
+      const progress = Math.min(autoAdvanceElapsed / AUTO_ADVANCE_DURATION, 1);
+      stage.style.setProperty("--orbit-progress", `${(progress * 100).toFixed(2)}%`);
+
+      if (autoAdvanceElapsed >= AUTO_ADVANCE_DURATION) {
+        autoAdvanceElapsed = 0;
+        move(1, { userInitiated: false });
+      }
+    }
+
     ambientFrame = window.requestAnimationFrame(updateAmbientDrift);
   };
   ambientFrame = window.requestAnimationFrame(updateAmbientDrift);

@@ -1,15 +1,11 @@
-import { projects } from "./projects.js?v=20260620-responsive-final";
-import { Header } from "./components/Header.js?v=20260620-responsive-final";
-import { Hero } from "./components/Hero.js?v=20260620-responsive-final";
-import { CustomCursor } from "./components/CustomCursor.js?v=20260620-responsive-final";
-import { ProjectCarousel } from "./components/ProjectCarousel.js?v=20260620-responsive-final";
-import { PortfolioGrid } from "./components/PortfolioGrid.js?v=20260620-responsive-final";
-import { VideoOverlay } from "./components/VideoOverlay.js?v=20260620-responsive-final";
-import { AboutOverlay } from "./components/AboutOverlay.js?v=20260620-responsive-final";
-
-
-
-
+import { projects } from "./projects.js";
+import { Header } from "./components/Header.js";
+import { Hero } from "./components/Hero.js";
+import { CustomCursor } from "./components/CustomCursor.js";
+import { ProjectCarousel } from "./components/ProjectCarousel.js";
+import { PortfolioGrid } from "./components/PortfolioGrid.js";
+import { VideoOverlay } from "./components/VideoOverlay.js";
+import { AboutOverlay } from "./components/AboutOverlay.js";
 import { makeMagnetic } from "./utils.js";
 
 const app = document.querySelector("#app");
@@ -25,9 +21,13 @@ const selectionIds = [
   "souvenirs",
   "lumen"
 ];
-const selectionProjects = selectionIds
+const featuredProjects = selectionIds
   .map(id => projects.find(p => p.id === id))
   .filter(Boolean);
+const selectionProjects = [
+  ...featuredProjects,
+  ...projects.filter((project) => !selectionIds.includes(project.id)),
+];
 const selectionView = document.createElement("div");
 selectionView.className = "selection-view route-view";
 
@@ -95,7 +95,7 @@ selectionActions.querySelector("a").addEventListener("click", (event) => {
 });
 makeMagnetic(selectionActions.querySelector("a"), 0.15);
 
-selectionView.append(Hero(), carousel.element, selectionActions);
+selectionView.append(Hero(), carousel.element);
 
 const heroLogo = selectionView.querySelector('.hero__logo');
 const heroTitle = selectionView.querySelector('.hero__title');

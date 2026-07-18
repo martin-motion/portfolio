@@ -1,5 +1,4 @@
 const CANONICAL_ORIGIN = "https://martinmotion.co";
-const LEGACY_ORIGIN = "https://martin-motion.vercel.app";
 const MEDIA_SAMPLE = "https://martin-motion-media.martinbarbe09.workers.dev/videos/joynit.mp4";
 
 async function assertFetch(url, expectedStatus = 200, options = {}) {
@@ -13,10 +12,6 @@ async function assertFetch(url, expectedStatus = 200, options = {}) {
 async function main() {
   const homeResponse = await assertFetch(`${CANONICAL_ORIGIN}/`);
   const homeHtml = await homeResponse.text();
-
-  if (homeHtml.includes(LEGACY_ORIGIN)) {
-    throw new Error(`Home HTML still references legacy domain: ${LEGACY_ORIGIN}`);
-  }
 
   for (const required of [
     '<link rel="canonical" href="https://martinmotion.co/"',

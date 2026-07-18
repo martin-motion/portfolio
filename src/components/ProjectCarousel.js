@@ -1,310 +1,216 @@
-import { ProjectCard } from "./ProjectCard.js?v=20260607-premium-v26";
+import { ProjectCard } from "./ProjectCard.js";
+import { CategoryFilters } from "./CategoryFilters.js";
 import { makeMagnetic } from "../utils.js";
 
-const getCircularOffset = (index, activeIndex, total) => {
-  const rawOffset = index - activeIndex;
-  const half = Math.floor(total / 2);
-
-  if (rawOffset > half) return rawOffset - total;
-  if (rawOffset < -half) return rawOffset + total;
-  return rawOffset;
-};
+const FILTER_ORDER = [
+  "Tous",
+  "Clip",
+  "Mini film RS",
+  "Motion Design",
+  "IA Générative",
+  "VFX / Compositing",
+];
 
 const getDepth = (offset) => {
   const distance = Math.abs(offset);
-  const depth = [
-    { scale: 1.05, veil: 0, brightness: 1.02, saturation: 1, opacity: 1, rotate: 0, y: 0, z: 92, xOffset: 0 },
-    { scale: 0.88, veil: 0.08, brightness: 0.94, saturation: 0.96, opacity: 1, rotate: 15, y: 10, z: -40, xOffset: 1.08 },
-    { scale: 0.74, veil: 0.18, brightness: 0.85, saturation: 0.9, opacity: 1, rotate: 30, y: 15, z: -180, xOffset: 1.74 },
-    { scale: 0.63, veil: 0.32, brightness: 0.74, saturation: 0.84, opacity: 1, rotate: 45, y: 20, z: -300, xOffset: 2.16 },
-    { scale: 0.54, veil: 0.48, brightness: 0.62, saturation: 0.7, opacity: 1, rotate: 60, y: 25, z: -420, xOffset: 2.44 },
-  ];
-
-  return depth[Math.min(distance, depth.length - 1)];
+  return [
+    { scale: 1.14, x: 0, y: -18, rotate: 0, brightness: 1, opacity: 1 },
+    { scale: 0.92, x: 1.12, y: 10, rotate: 2.5, brightness: 0.88, opacity: 1 },
+    { scale: 0.82, x: 2.12, y: 24, rotate: 5, brightness: 0.76, opacity: 0.94 },
+    { scale: 0.72, x: 3.02, y: 36, rotate: 7, brightness: 0.65, opacity: 0.76 },
+  ][Math.min(distance, 3)];
 };
-
 
 export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onActiveChange }) {
   let activeIndex = initialIndex;
+  let activeFilter = "Tous";
+  let visibleIndices = projects.map((_, index) => index);
   let dragStartX = 0;
   let dragDeltaX = 0;
   let lastDragDistance = 0;
   let isDragging = false;
-  let wheelDelta = 0;
-  let wheelIsLocked = false;
+  let isHovering = false;
+  let ambientFrame = 0;
 
   const section = document.createElement("section");
   section.id = "projects";
   section.className = "carousel";
-  section.setAttribute("aria-label", "Projets");
-  section.innerHTML = `
-    <div class="carousel__stage" tabindex="0" aria-roledescription="carousel">
-      <button class="carousel__arrow carousel__arrow--prev" type="button" aria-label="Projet precedent">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
-      </button>
-      <button class="carousel__arrow carousel__arrow--next" type="button" aria-label="Projet suivant">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
-      </button>
+  section.setAttribute("aria-label", "Galerie de projets");
+
+  const availableCategories = new Set(projects.flatMap((project) => project.categories ?? []));
+  const filters = CategoryFilters({
+    filters: FILTER_ORDER.filter((filter) => filter === "Tous" || availableCategories.has(filter)),
+    activeFilter,
+    onChange: (filter) => applyFilter(filter),
+  });
+  filters.element.classList.add("carousel__filters");
+
+  const stage = document.createElement("div");
+  stage.className = "carousel__stage";
+  stage.tabIndex = 0;
+  stage.setAttribute("aria-roledescription", "carousel");
+  stage.innerHTML = `
+    <button class="carousel__arrow carousel__arrow--prev" type="button" aria-label="Projet précédent">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+    </button>
+    <button class="carousel__arrow carousel__arrow--next" type="button" aria-label="Projet suivant">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+    </button>
+    <div class="carousel__track" aria-hidden="true"></div>
+    <div class="carousel__status" aria-live="polite">
+      <span class="carousel__current">01</span><span>/</span><span class="carousel__total">${String(projects.length).padStart(2, "0")}</span>
     </div>
   `;
 
-  const stage = section.querySelector(".carousel__stage");
-  const prevButton = section.querySelector(".carousel__arrow--prev");
-  const nextButton = section.querySelector(".carousel__arrow--next");
-
-  makeMagnetic(prevButton, 0.2);
-  makeMagnetic(nextButton, 0.2);
+  const prevButton = stage.querySelector(".carousel__arrow--prev");
+  const nextButton = stage.querySelector(".carousel__arrow--next");
+  const currentLabel = stage.querySelector(".carousel__current");
+  const totalLabel = stage.querySelector(".carousel__total");
+  makeMagnetic(prevButton, 0.16);
+  makeMagnetic(nextButton, 0.16);
 
   const cards = projects.map((project, index) =>
     ProjectCard({
       project,
       index,
-      onOpen: (selectedProject, selectedIndex, trigger) => {
-        if (selectedIndex !== activeIndex) {
-          setActiveIndex(selectedIndex);
-          return;
-        }
-
-        openProjectAt(selectedIndex, trigger);
+      onOpen: (_project, selectedIndex, trigger) => {
+        noteInteraction();
+        if (selectedIndex !== activeIndex) setActiveIndex(selectedIndex);
+        else onOpenProject(projects[selectedIndex], selectedIndex, trigger);
       },
     })
   );
-
-  cards.forEach((card, index) => {
-    card.dataset.projectIndex = index;
-  });
-
   stage.append(...cards);
+  section.append(filters.element, stage);
 
-  const setActiveIndex = (index) => {
-    activeIndex = (index + projects.length) % projects.length;
-    render();
-    if (onActiveChange) {
-      onActiveChange(projects[activeIndex], activeIndex);
-    }
-  };
+  function noteInteraction() {
+    stage.style.setProperty("--ambient-drift", "0px");
+  }
 
-  const move = (direction) => setActiveIndex(activeIndex + direction);
+  function getVisiblePosition(index) {
+    return visibleIndices.indexOf(index);
+  }
 
-  const moveFromWheel = (delta) => {
-    wheelDelta += delta;
+  function getCircularOffset(position, activePosition, total) {
+    let offset = position - activePosition;
+    const half = Math.floor(total / 2);
+    if (offset > half) offset -= total;
+    if (offset < -half) offset += total;
+    return offset;
+  }
 
-    if (wheelIsLocked || Math.abs(wheelDelta) < 42) return;
-
-    move(wheelDelta > 0 ? 1 : -1);
-    wheelDelta = 0;
-    wheelIsLocked = true;
-
-    window.setTimeout(() => {
-      wheelIsLocked = false;
-    }, 220);
-  };
-
-  const openProjectAt = (index, trigger = cards[index]) => {
-    activeIndex = index;
-    render();
-    onOpenProject(projects[index], index, trigger);
-  };
-
-  const getVisualCardAtPoint = (clientX, clientY) => {
-    const candidates = cards
-      .map((card, index) => {
-        const rect = card.getBoundingClientRect();
-        const contains =
-          clientX >= rect.left &&
-          clientX <= rect.right &&
-          clientY >= rect.top &&
-          clientY <= rect.bottom;
-
-        if (!contains) return null;
-
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        return {
-          card,
-          index,
-          score: Math.abs(clientX - centerX) + Math.abs(clientY - centerY) * 0.22,
-        };
-      })
-      .filter(Boolean);
-
-    candidates.sort((a, b) => a.score - b.score);
-    return candidates[0] ?? null;
-  };
-
-  const render = () => {
+  function render() {
+    const activePosition = Math.max(0, getVisiblePosition(activeIndex));
     cards.forEach((card, index) => {
-      const offset = getCircularOffset(index, activeIndex, projects.length);
+      const position = getVisiblePosition(index);
+      const isVisible = position >= 0;
+      card.hidden = !isVisible;
+      if (!isVisible) return;
+
+      const offset = getCircularOffset(position, activePosition, visibleIndices.length);
       const distance = Math.abs(offset);
       const depth = getDepth(offset);
       const direction = Math.sign(offset);
-      const borderOpacity = [0.38, 0.09, 0.045, 0.02][Math.min(distance, 3)];
-
       card.classList.toggle("is-active", offset === 0);
-      card.classList.toggle("is-dimmed", distance > 2);
-      card.style.setProperty("--offset", offset);
-      card.style.setProperty("--scale", depth.scale);
-      card.style.setProperty("--veil-opacity", depth.veil);
-      card.style.setProperty("--brightness", depth.brightness);
-      card.style.setProperty("--saturation", depth.saturation);
-      card.style.setProperty("--rotate-y", `${direction * -depth.rotate}deg`);
-      card.style.setProperty("--shift-x-mult", direction * depth.xOffset);
+      card.classList.toggle("is-outside", distance > 3);
+      card.style.setProperty("--shift-x-mult", direction * depth.x);
       card.style.setProperty("--shift-y", `${depth.y}px`);
-      card.style.setProperty("--translate-z", `${depth.z}px`);
+      card.style.setProperty("--scale", depth.scale);
+      card.style.setProperty("--rotate-z", `${direction * depth.rotate}deg`);
+      card.style.setProperty("--brightness", depth.brightness);
+      card.style.setProperty("--card-opacity", distance > 3 ? 0 : depth.opacity);
       card.style.setProperty("--z", 100 - distance);
-      card.style.setProperty("--card-border-opacity", borderOpacity);
-      card.style.setProperty("--card-opacity", depth.opacity);
-      const reflectOpacity = [0.26, 0.18, 0.13, 0.08][Math.min(distance, 3)];
-      card.style.setProperty("--card-reflect-opacity", reflectOpacity);
-      card.style.transformOrigin =
-
-        offset < 0 ? "right center" : offset > 0 ? "left center" : "center center";
-      card.tabIndex = distance <= 2 ? 0 : -1;
+      card.tabIndex = distance <= 3 ? 0 : -1;
       card.setAttribute("aria-current", offset === 0 ? "true" : "false");
     });
-  };
+
+    currentLabel.textContent = String(activePosition + 1).padStart(2, "0");
+    totalLabel.textContent = String(visibleIndices.length).padStart(2, "0");
+    stage.style.setProperty("--progress", `${((activePosition + 1) / visibleIndices.length) * 100}%`);
+    onActiveChange?.(projects[activeIndex], activeIndex);
+  }
+
+  function setActiveIndex(index) {
+    activeIndex = index;
+    render();
+  }
+
+  function move(direction, { userInitiated = true } = {}) {
+    if (userInitiated) noteInteraction();
+    const position = getVisiblePosition(activeIndex);
+    const nextPosition = (position + direction + visibleIndices.length) % visibleIndices.length;
+    setActiveIndex(visibleIndices[nextPosition]);
+  }
+
+  function applyFilter(filter) {
+    noteInteraction();
+    activeFilter = filter;
+    visibleIndices = projects
+      .map((project, index) => ({ project, index }))
+      .filter(({ project }) => filter === "Tous" || (project.categories ?? []).includes(filter))
+      .map(({ index }) => index);
+    if (!visibleIndices.includes(activeIndex)) activeIndex = visibleIndices[0];
+    filters.setActive(filter);
+    render();
+  }
 
   prevButton.addEventListener("click", () => move(-1));
   nextButton.addEventListener("click", () => move(1));
-
+  stage.addEventListener("mouseenter", () => { isHovering = true; });
+  stage.addEventListener("mouseleave", () => { isHovering = false; });
+  stage.addEventListener("focusin", noteInteraction);
   stage.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowLeft") {
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
       event.preventDefault();
-      event.stopPropagation();
-      move(-1);
-    }
-
-    if (event.key === "ArrowRight") {
-      event.preventDefault();
-      event.stopPropagation();
-      move(1);
+      move(event.key === "ArrowLeft" ? -1 : 1);
     }
   });
-
-  stage.addEventListener(
-    "click",
-    (event) => {
-      if (event.target.closest(".carousel__arrow")) return;
-
-      if (lastDragDistance > 10) {
-        event.preventDefault();
-        event.stopPropagation();
-        lastDragDistance = 0;
-        return;
-      }
-
-      const visualTarget = getVisualCardAtPoint(event.clientX, event.clientY);
-      if (!visualTarget) return;
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      if (visualTarget.index !== activeIndex) {
-        setActiveIndex(visualTarget.index);
-        return;
-      }
-
-      openProjectAt(visualTarget.index, visualTarget.card);
-    },
-    true
-  );
-
-  stage.addEventListener(
-    "wheel",
-    (event) => {
-      if (document.body.classList.contains("has-overlay")) return;
-
-      const delta =
-        Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
-      if (Math.abs(delta) < 2) return;
-
-      event.preventDefault();
-      moveFromWheel(delta);
-    },
-    { passive: false }
-  );
-
   stage.addEventListener("pointerdown", (event) => {
-    if (event.target.closest(".carousel__arrow")) return;
-
+    if (event.target.closest("button")) return;
+    noteInteraction();
     isDragging = true;
     dragStartX = event.clientX;
     dragDeltaX = 0;
     stage.setPointerCapture(event.pointerId);
     stage.classList.add("is-dragging");
   });
-
   stage.addEventListener("pointermove", (event) => {
     if (!isDragging) return;
     dragDeltaX = event.clientX - dragStartX;
-    // Amorti de friction physique non-linéaire (Damped Drag)
-    const dampedDrag = Math.sign(dragDeltaX) * Math.pow(Math.abs(dragDeltaX), 0.86) * 1.62;
-    stage.style.setProperty("--drag", `${dampedDrag}px`);
+    stage.style.setProperty("--drag", `${dragDeltaX * 0.55}px`);
   });
 
   const endDrag = (event) => {
     if (!isDragging) return;
     isDragging = false;
     lastDragDistance = Math.abs(dragDeltaX);
-    stage.releasePointerCapture(event.pointerId);
+    if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
     stage.classList.remove("is-dragging");
     stage.style.setProperty("--drag", "0px");
-
-    if (Math.abs(dragDeltaX) > 48) {
-      move(dragDeltaX > 0 ? -1 : 1);
-    }
+    if (Math.abs(dragDeltaX) > 46) move(dragDeltaX > 0 ? -1 : 1);
   };
-
   stage.addEventListener("pointerup", endDrag);
   stage.addEventListener("pointercancel", endDrag);
+  stage.addEventListener("click", (event) => {
+    if (lastDragDistance <= 10) return;
+    event.preventDefault();
+    event.stopPropagation();
+    lastDragDistance = 0;
+  }, true);
 
-  // Correction bug slide sur téléphone : bloquer le scroll natif si le geste est horizontal
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let isTouchActive = false;
-
-  stage.addEventListener("touchstart", (event) => {
-    if (event.touches.length === 1) {
-      touchStartX = event.touches[0].clientX;
-      touchStartY = event.touches[0].clientY;
-      isTouchActive = true;
-    }
-  }, { passive: true });
-
-  stage.addEventListener("touchmove", (event) => {
-    if (!isTouchActive || event.touches.length !== 1) return;
-    const dx = event.touches[0].clientX - touchStartX;
-    const dy = event.touches[0].clientY - touchStartY;
-
-    if (Math.abs(dx) > Math.abs(dy)) {
-      if (event.cancelable) {
-        event.preventDefault();
-      }
-    } else {
-      isTouchActive = false;
-    }
-  }, { passive: false });
-
-  stage.addEventListener("touchend", () => {
-    isTouchActive = false;
-  });
-  stage.addEventListener("touchcancel", () => {
-    isTouchActive = false;
-  });
-
-  window.addEventListener("keydown", (event) => {
-    const overlayOpen = document.body.classList.contains("has-overlay");
-    if (overlayOpen || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
-
-    if (event.key === "ArrowLeft") move(-1);
-    if (event.key === "ArrowRight") move(1);
-  });
+  const updateAmbientDrift = (time) => {
+    const canDrift =
+      !document.hidden &&
+      !isDragging &&
+      !document.body.classList.contains("has-overlay") &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const amplitude = isHovering ? 2.5 : 7;
+    const drift = canDrift ? Math.sin(time / 5200) * amplitude : 0;
+    stage.style.setProperty("--ambient-drift", `${drift.toFixed(2)}px`);
+    ambientFrame = window.requestAnimationFrame(updateAmbientDrift);
+  };
+  ambientFrame = window.requestAnimationFrame(updateAmbientDrift);
 
   render();
-
-  return {
-    element: section,
-    setActiveIndex,
-  };
+  return { element: section, setActiveIndex };
 }

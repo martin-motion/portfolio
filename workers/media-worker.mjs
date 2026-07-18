@@ -2,7 +2,6 @@ const VIDEO_ROUTES = {
   "/videos/domaine-paul-mas.mp4": "Domaine Paul Mas.mp4",
   "/videos/edf-chooz.mp4": "EDF Chooz.mp4",
   "/videos/engie-solution.mp4": "Engie Solution.mp4",
-  "/videos/joynii-v02-m2.mp4": "JOYNII_V02_M2.mp4",
   "/videos/orange-ilomba.mp4": "Orange Ilomba.mp4",
   "/videos/sib.mp4": "SIB.mp4",
   "/videos/talent-soft.mp4": "Talent Soft.mp4",
@@ -25,7 +24,6 @@ const VIDEO_ROUTES = {
   "/videos/compass-groupe.mp4": "Compass Groupe.mp4",
   "/videos/lyspro.mp4": "LysPro.mp4",
   "/videos/france-tv-journee-du-patrimoine.mp4": "France_TV_Journee_du_patrimoine.mp4",
-  "/videos/joynit-v02-m2.mp4": "JOYNIT_V02_M2.mp4",
   "/videos/joynit.mp4": "JOYNIT_V02_M2.mp4",
   "/videos/loreal-testing.mp4": "LOREAL TESTING.mp4",
 };
@@ -93,18 +91,27 @@ export default {
       return new Response("Not found", { status: 404, headers: corsHeaders });
     }
 
-    const range = parseRange(request.headers.get("Range"), head.size);
+    const rangeHeader = request.headers.get("Range");
+    const range = parseRange(rangeHeader, head.size);
+    if (rangeHeader && !range) {
+      const headers = new Headers(corsHeaders);
+      headers.set("Content-Range", `bytes */${head.size}`);
+      return new Response(null, { status: 416, headers });
+    }
+
     if (range) {
       const length = range.end - range.offset + 1;
+      const headers = mediaHeaders(head, length);
+      headers.set("Content-Range", `bytes ${range.offset}-${range.end}/${head.size}`);
+
+      if (request.method === "HEAD") {
+        return new Response(null, { status: 206, headers });
+      }
+
       const object = await env.MEDIA_BUCKET.get(key, {
         range: { offset: range.offset, length },
       });
-      const headers = mediaHeaders(head, length);
-      headers.set("Content-Range", `bytes ${range.offset}-${range.end}/${head.size}`);
-      return new Response(request.method === "HEAD" ? null : object.body, {
-        status: 206,
-        headers,
-      });
+      return new Response(object.body, { status: 206, headers });
     }
 
     const headers = mediaHeaders(head, head.size);

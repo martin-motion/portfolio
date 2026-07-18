@@ -13,7 +13,8 @@ export function AboutOverlay() {
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
       </button>
       <div class="about-overlay__media" aria-hidden="true">
-        <img src="./assets/logo/logo-liquid.png?v=20260620-responsive-final" alt="" loading="lazy" decoding="async" />
+        <img class="about-overlay__portrait" src="./assets/about/martin-portrait.png?v=20260718" alt="" loading="lazy" decoding="async" />
+        <img class="about-overlay__signature" src="./assets/logo/martinmotion-logo-loop-alpha.webp?v=20260718" alt="" loading="lazy" decoding="async" />
       </div>
       <div class="about-overlay__content">
         <p class="about-overlay__eyebrow">À propos</p>

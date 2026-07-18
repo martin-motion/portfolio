@@ -1,5 +1,5 @@
-import { CategoryFilters } from "./CategoryFilters.js?v=20260604-final-cta";
-import { renderProjectTags } from "./ProjectCard.js?v=20260604-final-cta";
+import { CategoryFilters } from "./CategoryFilters.js";
+import { renderProjectTags } from "./ProjectCard.js";
 
 const FILTER_ORDER = [
   "Tous",
@@ -35,7 +35,7 @@ export function PortfolioGrid({ projects, onOpenProject }) {
   header.className = "portfolio-view__header";
   header.innerHTML = `
     <p class="portfolio-view__eyebrow">Portfolio</p>
-    <h1>Vidéos, images en mouvement et directions visuelles.</h1>
+    <h1><span>Vidéos en mouvement,</span> <em>directions visuelles.</em></h1>
   `;
 
   const filters = CategoryFilters({

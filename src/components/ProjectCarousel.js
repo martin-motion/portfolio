@@ -1,6 +1,5 @@
 import { ProjectCard } from "./ProjectCard.js";
 import { CategoryFilters } from "./CategoryFilters.js";
-import { makeMagnetic } from "../utils.js";
 
 const FILTER_ORDER = [
   "Tous",
@@ -14,10 +13,10 @@ const FILTER_ORDER = [
 const getDepth = (offset) => {
   const distance = Math.abs(offset);
   return [
-    { scale: 1.22, x: 0, y: -20, rotate: 0, brightness: 1, opacity: 1 },
-    { scale: 0.94, x: 1.08, y: 18, rotate: 3.8, brightness: 0.88, opacity: 1 },
-    { scale: 0.8, x: 2.08, y: 42, rotate: 7, brightness: 0.74, opacity: 0.88 },
-    { scale: 0.68, x: 3.02, y: 64, rotate: 10, brightness: 0.6, opacity: 0.62 },
+    { scale: 1.12, x: 0, y: 0, rotate: 0, brightness: 1, opacity: 1 },
+    { scale: 0.96, x: 1.12, y: 0, rotate: 1.2, brightness: 0.9, opacity: 1 },
+    { scale: 0.82, x: 2.16, y: 0, rotate: 2.2, brightness: 0.76, opacity: 0.88 },
+    { scale: 0.7, x: 3.12, y: 0, rotate: 3, brightness: 0.64, opacity: 0.64 },
   ][Math.min(distance, 3)];
 };
 
@@ -29,7 +28,6 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
   let dragDeltaX = 0;
   let lastDragDistance = 0;
   let isDragging = false;
-  let isHovering = false;
   let ambientFrame = 0;
   let shiftTimer = 0;
 
@@ -57,7 +55,6 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
     <button class="carousel__arrow carousel__arrow--next" type="button" aria-label="Projet suivant">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
     </button>
-    <div class="carousel__track" aria-hidden="true"></div>
     <div class="carousel__status" aria-live="off">
       <span class="carousel__current">01</span><span>/</span><span class="carousel__total">${String(projects.length).padStart(2, "0")}</span>
     </div>
@@ -68,9 +65,6 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
   const nextButton = stage.querySelector(".carousel__arrow--next");
   const currentLabel = stage.querySelector(".carousel__current");
   const totalLabel = stage.querySelector(".carousel__total");
-  makeMagnetic(prevButton, 0.16);
-  makeMagnetic(nextButton, 0.16);
-
   const cards = projects.map((project, index) =>
     ProjectCard({
       project,
@@ -165,14 +159,6 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
 
   prevButton.addEventListener("click", () => move(-1));
   nextButton.addEventListener("click", () => move(1));
-  stage.addEventListener("mouseenter", () => { isHovering = true; });
-  stage.addEventListener("mouseleave", () => {
-    isHovering = false;
-    cards.forEach((card) => {
-      card.style.setProperty("--pointer-shift-x", "0px");
-      card.style.setProperty("--pointer-shift-y", "0px");
-    });
-  });
   stage.addEventListener("focusin", noteInteraction);
   stage.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
@@ -190,23 +176,9 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
     stage.classList.add("is-dragging");
   });
   stage.addEventListener("pointermove", (event) => {
-    if (isDragging) {
-      dragDeltaX = event.clientX - dragStartX;
-      stage.style.setProperty("--drag", `${dragDeltaX * 0.55}px`);
-      return;
-    }
-
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-    const rect = stage.getBoundingClientRect();
-    const normalizedX = (event.clientX - rect.left) / rect.width - 0.5;
-    const normalizedY = (event.clientY - rect.top) / rect.height - 0.5;
-    cards.forEach((card) => {
-      if (card.hidden) return;
-      const distance = Math.min(Math.abs(Number(card.dataset.carouselOffset ?? 0)), 3);
-      const depth = 1 - distance * 0.16;
-      card.style.setProperty("--pointer-shift-x", `${(normalizedX * 24 * depth).toFixed(2)}px`);
-      card.style.setProperty("--pointer-shift-y", `${(normalizedY * 12 * depth).toFixed(2)}px`);
-    });
+    if (!isDragging) return;
+    dragDeltaX = event.clientX - dragStartX;
+    stage.style.setProperty("--drag", `${dragDeltaX * 0.55}px`);
   });
 
   const endDrag = (event) => {
@@ -235,8 +207,7 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
       !document.body.classList.contains("has-overlay") &&
       document.body.classList.contains("is-selection-route") &&
       !reducedMotion;
-    const amplitude = isHovering ? 22 : 15;
-    const drift = canAnimate ? Math.sin(time / 2600) * amplitude : 0;
+    const drift = canAnimate ? Math.sin(time / 5200) * 11 : 0;
     stage.style.setProperty("--ambient-drift", `${drift.toFixed(2)}px`);
 
     ambientFrame = window.requestAnimationFrame(updateAmbientDrift);

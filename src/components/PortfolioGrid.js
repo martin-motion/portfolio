@@ -77,6 +77,8 @@ export function PortfolioGrid({ projects, onOpenProject }) {
       card.innerHTML = `
         <span class="portfolio-card__media">
           ${media}
+          <span class="portfolio-card__index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+          <span class="portfolio-card__cta" aria-hidden="true">Voir le projet</span>
           <span class="portfolio-card__media-tags" aria-hidden="true">
             ${renderProjectTags([project.category], "portfolio-card__tag")}
           </span>

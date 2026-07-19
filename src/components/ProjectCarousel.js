@@ -11,15 +11,13 @@ const FILTER_ORDER = [
   "VFX / Compositing",
 ];
 
-const AUTO_ADVANCE_DURATION = 8800;
-
 const getDepth = (offset) => {
   const distance = Math.abs(offset);
   return [
-    { scale: 1.14, x: 0, y: -18, rotate: 0, brightness: 1, opacity: 1 },
-    { scale: 0.92, x: 1.12, y: 10, rotate: 2.5, brightness: 0.88, opacity: 1 },
-    { scale: 0.82, x: 2.12, y: 24, rotate: 5, brightness: 0.76, opacity: 0.94 },
-    { scale: 0.72, x: 3.02, y: 36, rotate: 7, brightness: 0.65, opacity: 0.76 },
+    { scale: 1.22, x: 0, y: -20, rotate: 0, brightness: 1, opacity: 1 },
+    { scale: 0.94, x: 1.08, y: 18, rotate: 3.8, brightness: 0.88, opacity: 1 },
+    { scale: 0.8, x: 2.08, y: 42, rotate: 7, brightness: 0.74, opacity: 0.88 },
+    { scale: 0.68, x: 3.02, y: 64, rotate: 10, brightness: 0.6, opacity: 0.62 },
   ][Math.min(distance, 3)];
 };
 
@@ -32,11 +30,8 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
   let lastDragDistance = 0;
   let isDragging = false;
   let isHovering = false;
-  let isFocusWithin = false;
-  let isAutoPaused = false;
   let ambientFrame = 0;
-  let autoAdvanceElapsed = 0;
-  let previousFrameTime = 0;
+  let shiftTimer = 0;
 
   const section = document.createElement("section");
   section.id = "projects";
@@ -67,14 +62,12 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
       <span class="carousel__current">01</span><span>/</span><span class="carousel__total">${String(projects.length).padStart(2, "0")}</span>
     </div>
     <p class="carousel__hint" aria-hidden="true">Glisser pour explorer</p>
-    <button class="carousel__autoplay" type="button" aria-pressed="false" aria-label="Mettre l’animation de la galerie en pause">Pause</button>
   `;
 
   const prevButton = stage.querySelector(".carousel__arrow--prev");
   const nextButton = stage.querySelector(".carousel__arrow--next");
   const currentLabel = stage.querySelector(".carousel__current");
   const totalLabel = stage.querySelector(".carousel__total");
-  const autoplayButton = stage.querySelector(".carousel__autoplay");
   makeMagnetic(prevButton, 0.16);
   makeMagnetic(nextButton, 0.16);
 
@@ -94,8 +87,6 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
 
   function noteInteraction() {
     stage.style.setProperty("--ambient-drift", "0px");
-    autoAdvanceElapsed = 0;
-    stage.style.setProperty("--orbit-progress", "0%");
   }
 
   function getVisiblePosition(index) {
@@ -132,6 +123,7 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
       card.style.setProperty("--card-opacity", distance > 3 ? 0 : depth.opacity);
       card.style.setProperty("--z", 100 - distance);
       card.style.setProperty("--float-phase", `${(index % 7) * -0.48}s`);
+      card.dataset.carouselOffset = String(offset);
       card.tabIndex = distance <= 3 ? 0 : -1;
       card.setAttribute("aria-current", offset === 0 ? "true" : "false");
     });
@@ -151,7 +143,12 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
     if (userInitiated) noteInteraction();
     const position = getVisiblePosition(activeIndex);
     const nextPosition = (position + direction + visibleIndices.length) % visibleIndices.length;
+    stage.dataset.direction = direction > 0 ? "next" : "previous";
     setActiveIndex(visibleIndices[nextPosition]);
+    stage.classList.remove("is-shifting");
+    window.requestAnimationFrame(() => stage.classList.add("is-shifting"));
+    window.clearTimeout(shiftTimer);
+    shiftTimer = window.setTimeout(() => stage.classList.remove("is-shifting"), 920);
   }
 
   function applyFilter(filter) {
@@ -169,24 +166,14 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
   prevButton.addEventListener("click", () => move(-1));
   nextButton.addEventListener("click", () => move(1));
   stage.addEventListener("mouseenter", () => { isHovering = true; });
-  stage.addEventListener("mouseleave", () => { isHovering = false; });
-  stage.addEventListener("focusin", () => {
-    isFocusWithin = true;
-    noteInteraction();
+  stage.addEventListener("mouseleave", () => {
+    isHovering = false;
+    cards.forEach((card) => {
+      card.style.setProperty("--pointer-shift-x", "0px");
+      card.style.setProperty("--pointer-shift-y", "0px");
+    });
   });
-  stage.addEventListener("focusout", (event) => {
-    if (!stage.contains(event.relatedTarget)) isFocusWithin = false;
-  });
-  autoplayButton.addEventListener("click", () => {
-    isAutoPaused = !isAutoPaused;
-    autoplayButton.setAttribute("aria-pressed", String(isAutoPaused));
-    autoplayButton.textContent = isAutoPaused ? "Lecture" : "Pause";
-    autoplayButton.setAttribute(
-      "aria-label",
-      isAutoPaused ? "Relancer l’animation de la galerie" : "Mettre l’animation de la galerie en pause"
-    );
-    noteInteraction();
-  });
+  stage.addEventListener("focusin", noteInteraction);
   stage.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
       event.preventDefault();
@@ -203,9 +190,23 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
     stage.classList.add("is-dragging");
   });
   stage.addEventListener("pointermove", (event) => {
-    if (!isDragging) return;
-    dragDeltaX = event.clientX - dragStartX;
-    stage.style.setProperty("--drag", `${dragDeltaX * 0.55}px`);
+    if (isDragging) {
+      dragDeltaX = event.clientX - dragStartX;
+      stage.style.setProperty("--drag", `${dragDeltaX * 0.55}px`);
+      return;
+    }
+
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    const rect = stage.getBoundingClientRect();
+    const normalizedX = (event.clientX - rect.left) / rect.width - 0.5;
+    const normalizedY = (event.clientY - rect.top) / rect.height - 0.5;
+    cards.forEach((card) => {
+      if (card.hidden) return;
+      const distance = Math.min(Math.abs(Number(card.dataset.carouselOffset ?? 0)), 3);
+      const depth = 1 - distance * 0.16;
+      card.style.setProperty("--pointer-shift-x", `${(normalizedX * 24 * depth).toFixed(2)}px`);
+      card.style.setProperty("--pointer-shift-y", `${(normalizedY * 12 * depth).toFixed(2)}px`);
+    });
   });
 
   const endDrag = (event) => {
@@ -227,8 +228,6 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
   }, true);
 
   const updateAmbientDrift = (time) => {
-    const frameDelta = previousFrameTime ? Math.min(time - previousFrameTime, 64) : 0;
-    previousFrameTime = time;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const canAnimate =
       !document.hidden &&
@@ -236,27 +235,9 @@ export function ProjectCarousel({ projects, initialIndex = 0, onOpenProject, onA
       !document.body.classList.contains("has-overlay") &&
       document.body.classList.contains("is-selection-route") &&
       !reducedMotion;
-    const amplitude = isHovering ? 2.5 : 7;
-    const drift = canAnimate ? Math.sin(time / 4300) * amplitude : 0;
+    const amplitude = isHovering ? 22 : 15;
+    const drift = canAnimate ? Math.sin(time / 2600) * amplitude : 0;
     stage.style.setProperty("--ambient-drift", `${drift.toFixed(2)}px`);
-
-    const canAutoAdvance =
-      canAnimate &&
-      !isAutoPaused &&
-      !isHovering &&
-      !isFocusWithin &&
-      visibleIndices.length > 1;
-
-    if (canAutoAdvance) {
-      autoAdvanceElapsed += frameDelta;
-      const progress = Math.min(autoAdvanceElapsed / AUTO_ADVANCE_DURATION, 1);
-      stage.style.setProperty("--orbit-progress", `${(progress * 100).toFixed(2)}%`);
-
-      if (autoAdvanceElapsed >= AUTO_ADVANCE_DURATION) {
-        autoAdvanceElapsed = 0;
-        move(1, { userInitiated: false });
-      }
-    }
 
     ambientFrame = window.requestAnimationFrame(updateAmbientDrift);
   };

@@ -97,13 +97,6 @@ makeMagnetic(selectionActions.querySelector("a"), 0.15);
 
 selectionView.append(Hero(), carousel.element);
 
-const heroLogo = selectionView.querySelector('.hero__logo');
-const heroTitle = selectionView.querySelector('.hero__title');
-if (heroLogo && heroTitle) {
-  makeMagnetic(heroLogo, 0.5);
-  makeMagnetic(heroTitle, 0.2);
-}
-
 const setRoute = () => {
   const shouldOpenAbout = window.location.hash === "#about";
   const route =
